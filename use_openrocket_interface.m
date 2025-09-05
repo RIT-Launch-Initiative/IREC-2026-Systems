@@ -168,3 +168,6 @@ function func = make_cost_function(doc, sim, tuned_name, apogee_target)
         f = abs(apogee_error);
     end        
 end
+
+
+test
