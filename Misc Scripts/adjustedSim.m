@@ -13,7 +13,7 @@ sim = rocket.sims("Baseline");
 % Valid sites: "spaceport-midland", "spaceport-america", "urrg", "mars"
 site = launchsites("spaceport-midland"); 
 % Launch time
-lTime.date = [2025, 06, 21]; % [year, month, second]
+lTime.date = [2025, 06, 21]; % [year, month, day]
 lTime.time = [10, 21, 00]; % [hour, minute, second]
 % Choose whether to load air data from an existing file or download NWS data
 % Faster to choose an existing file if applicable
@@ -36,12 +36,36 @@ simData.("Indicated altitude") = pressalt("m", simData.("Air pressure"), "Pa") -
 simData.("Altitude error") = simData.("Indicated altitude") - simData.("Altitude");
 %% Apogee Error Information :)
 plotAltitudeError(simData)
+plotErrorVAltitude(simData)
 
 
 %% Functions
 function plotAltitudeError(simData)
     % Adjust data for plotting
     ascentRange = timerange(eventfilter("LAUNCHROD"), eventfilter("APOGEE"), "openleft");
+    altData = simData(ascentRange, ["Altitude", "Indicated altitude", "Altitude error"]);
+    yMax = max(altData.("Altitude"))*1.1;
+    % Plot altitudes
+    figure(name = "Altitude comparison")
+    % Left side
+    yyaxis("left")
+    plot(altData, "Time", "Altitude", "Color","b");
+    ylim([0,yMax])
+    ylabel("Altitude [m]")
+    hold on;
+    plot(altData, "Time", "Indicated altitude", "Color", "g");
+    % Right side
+    yyaxis("right")
+    plot(altData, "Time", "Altitude error", "Color", "r");
+    hold off;
+    ylabel("Altitude error [m]")
+    % Other plot related things
+    xlabel("Time [s]")
+    legend("Altitude", "Indicated altitude", "Error", "location", "northeast")
+end
+function plotErrorVAltitude(simData)
+    % Adjust data for plotting
+    ascentRange = timerange(eventfilter("LAUNCHROD"), eventfilter("MAIN"), "openleft");
     altData = simData(ascentRange, ["Altitude", "Indicated altitude", "Altitude error"]);
     yMax = max(altData.("Altitude"))*1.1;
     % Plot altitudes
