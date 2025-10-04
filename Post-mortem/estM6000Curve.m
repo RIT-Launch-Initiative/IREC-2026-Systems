@@ -7,7 +7,7 @@ clear; close all; clc;
 dataRRC3 = importdata("C:\IREC-2026-Systems\Data\OTIS Primary RRC3.csv");
 airData = importdata("C:\IREC-2026-Systems\atmosphereData\21-Jun-2025-10.21.00-midland-gfs_1.mat");
 % Make interpolants for temperature and height in terms of pressure
-dataRRC3(:,3) = dataRRC3(:,3)*0.1;
+dataRRC3(:,3) = dataRRC3(:,3)*0.1; % convert kPa
 pressGrid = griddedInterpolant(flip(airData.PRES), flip(airData.HGT));
 tempGrid = griddedInterpolant(flip(airData.PRES), flip(airData.TMP));
 % Trim data for ascent only
@@ -22,4 +22,8 @@ function data = trimRRCData(data, t)
         i = i+1;
     end
     data = data(1:i,:);
+end
+% Relates altitude to pressure profile based on a non-standard atmosphere profile
+function alt = adjustedAltimer(press, airData)
+    
 end
