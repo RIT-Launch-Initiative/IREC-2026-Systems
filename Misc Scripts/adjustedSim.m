@@ -5,9 +5,10 @@
 %% Setup
 clear; close all; clc;
 % Retrieve openrocket
-filepath = "C:\IREC-2026-Systems\Rocket Files\IREC-2026-4U.ork";
+filepath = "C:\IREC-2026-Systems\Rocket Files\IREC-2026.ork";
 rocket = openrocket(filepath);
 % Reference simulations
+% "Baseline", "15mph-Midland-N3800", "15mph-Midland-N3300", and "15mph-Midland-M3400" are valid currently
 sim = rocket.sims("Baseline");
 %% Inputs
 % Valid sites: "spaceport-midland", "spaceport-america", "urrg", "mars"
@@ -19,7 +20,8 @@ lTime.time = [10, 21, 00]; % [hour, minute, second]
 % Faster to choose an existing file if applicable
 % If downloading data, adjust parameters at line 29 as needed
 loadAirDataTable = true;
-airDataFilePath = "C:\IREC-2026-Systems\atmosphereData\21-Jun-2025-10.21.00-midland-gfs_1.mat";
+%"C:\IREC-2026-Systems\atmosphereData\21-Jun-2025-10.21.00-midland-gfs_1.mat"
+airDataFilePath = "C:\IREC-2026-Systems\atmosphereData\kylefluence.mat";
 %% Get atmosphere
 launchtime = datetime(lTime.date(1), lTime.date(2), lTime.date(3),...
     lTime.time(1), lTime.time(2), lTime.time(3), TimeZone = "MST");
@@ -29,6 +31,8 @@ else
     airdata = atmosphere("gfs", "pgrb2.1p00", site.lat, site.lon, launchtime, minpres = 450); %#ok<UNRCH>
 end
 airdata.TMP = airdata.TMP + 273.15; % conv Celcius to Kelvin
+%% Adjust components maybe
+
 %% Simulate!! :)
 simData = rocket.simulate(sim, outputs = "ALL", atmos = airdata(:, ["HGT", "PRES", "TMP"]));
 % Indicated altitude
@@ -37,6 +41,12 @@ simData.("Altitude error") = simData.("Indicated altitude") - simData.("Altitude
 %% Apogee Error Information :)
 plotAltitudeError(simData)
 plotErrorVAltitude(simData)
+mAlt = max(simData.Altitude);
+mAltInd = max(simData.("Indicated altitude"));
+errAlt = mAlt - mAltInd;
+fprintf("\nGeometric apogee: %4.0f m\nIndicated apogee: %4.0f m\nApogee error: %3.0f m\n",...
+    mAlt, mAltInd, errAlt);
+
 
 
 %% Functions

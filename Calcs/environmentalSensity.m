@@ -9,7 +9,7 @@ if ~isfile(filePath)
     error("Error: not on path", filePath);
 end
 TB1 = openrocket(filePath);
-% "Baseline", "15mph-Midland-N3800", and "15mph-Midland-N3300" are valid currently
+% "Baseline", "15mph-Midland-N3800", "15mph-Midland-N3300", and "15mph-Midland-M3400" are valid currently
 simName = "Baseline";
 sim = TB1.sims(simName);
 opts = sim.getOptions();
@@ -19,7 +19,8 @@ tempOffset = [-5 5]; % [K]
 tempRange = tempOffset(2)-tempOffset(1);
 pressOffset = [-5 5]*10^3; % [Pa]
 pressRange = pressOffset(2) - pressOffset(1);
-% Reduction is currently 366 m for N3800, 359 m for N3300
+% Reduction is currently 383 m for M6000, 366 m for N3800, 359 m for N3300,
+% 387 m for M3400
 appReduction = 383;
 % Use air data
 airDataFilePath = "C:\IREC-2026-Systems\atmosphereData\21-Jun-2025-10.21.00-midland-gfs_1.mat";
