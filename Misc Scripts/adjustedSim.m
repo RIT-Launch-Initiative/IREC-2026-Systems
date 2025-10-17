@@ -5,11 +5,11 @@
 %% Setup
 clear; close all; clc;
 % Retrieve openrocket
-filepath = "C:\IREC-2026-Systems\Rocket Files\IREC-2026.ork";
+filepath = "C:\IREC-2026-Systems\Rocket Files\IREC-2026-N3800.ork";
 rocket = openrocket(filepath);
 % Reference simulations
 % "Baseline", "15mph-Midland-N3800", "15mph-Midland-N3300", and "15mph-Midland-M3400" are valid currently
-sim = rocket.sims("Baseline");
+sim = rocket.sims("15mph-Midland");
 %% Inputs
 % Valid sites: "spaceport-midland", "spaceport-america", "urrg", "mars"
 site = launchsites("spaceport-midland"); 
@@ -21,7 +21,10 @@ lTime.time = [10, 21, 00]; % [hour, minute, second]
 % If downloading data, adjust parameters at line 29 as needed
 loadAirDataTable = true;
 %"C:\IREC-2026-Systems\atmosphereData\21-Jun-2025-10.21.00-midland-gfs_1.mat"
-airDataFilePath = "C:\IREC-2026-Systems\atmosphereData\kylefluence.mat";
+airDataFilePath = "C:\IREC-2026-Systems\atmosphereData\postFlightAtmos.mat";
+% Rasaero drag curve
+dragFilePath = "C:\IREC-2026-Systems\Data\CDplot-N3800.csv";
+
 %% Get atmosphere
 launchtime = datetime(lTime.date(1), lTime.date(2), lTime.date(3),...
     lTime.time(1), lTime.time(2), lTime.time(3), TimeZone = "MST");
@@ -31,10 +34,18 @@ else
     airdata = atmosphere("gfs", "pgrb2.1p00", site.lat, site.lon, launchtime, minpres = 450); %#ok<UNRCH>
 end
 airdata.TMP = airdata.TMP + 273.15; % conv Celcius to Kelvin
+%% Get drag curve
+rasDrag = import_rasaero_aerodata(dragFilePath);
+rasDrag = rasDrag.align("mach");
+rasDrag = table(rasDrag.mach, rasDrag.pick{"aoa", 0, "field", "CD"}, ...
+    VariableNames = ["MACH", "DRAG"]);
+rasDrag.MACH(1) = 0;
+
 %% Adjust components maybe
 
 %% Simulate!! :)
-simData = rocket.simulate(sim, outputs = "ALL", atmos = airdata(:, ["HGT", "PRES", "TMP"]));
+simData = rocket.simulate(sim, outputs = "ALL", atmos = airdata(:, ["HGT", "PRES", "TMP"]),...
+    wind = airdata, drag = rasDrag);
 % Indicated altitude
 simData.("Indicated altitude") = pressalt("m", simData.("Air pressure"), "Pa") - pressalt("m", simData{1, "Air pressure"}, "Pa");
 simData.("Altitude error") = simData.("Indicated altitude") - simData.("Altitude");
