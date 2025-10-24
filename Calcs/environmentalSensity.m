@@ -4,14 +4,13 @@
 %% Setup
 clear; close all; clc;
 % Run a test OR sim
-filePath = "C:\IREC-2026-Systems\Rocket Files\IREC-2026.ork"; 
+filePath = "C:\IREC-2026-Systems\Rocket Files\IREC-2026-N3800.ork"; 
 if ~isfile(filePath)
     error("Error: not on path", filePath);
 end
-TB1 = openrocket(filePath);
-% "Baseline", "15mph-Midland-N3800", "15mph-Midland-N3300", and "15mph-Midland-M3400" are valid currently
-simName = "Baseline";
-sim = TB1.sims(simName);
+rocket = openrocket(filePath);
+simName = "15mph-Midland";
+sim = rocket.sims(simName);
 opts = sim.getOptions();
 windBounds = [1.5 6.0]; % [min max] [m/s]
 windRange = windBounds(2)-windBounds(1);
@@ -23,7 +22,7 @@ pressRange = pressOffset(2) - pressOffset(1);
 % 387 m for M3400
 appReduction = 383;
 % Use air data
-airDataFilePath = "C:\IREC-2026-Systems\atmosphereData\21-Jun-2025-10.21.00-midland-gfs_1.mat";
+airDataFilePath = "C:\IREC-2026-Systems\atmosphereData\postFlightAtmos.mat";
 airdata = importdata(airDataFilePath);
 airdata.TMP = airdata.TMP + 273.15; % conv Celcius to Kelvin
 offsetAirData = airdata;
@@ -40,7 +39,7 @@ for i = 1:N
     offsetAirData.PRES = airdata.PRES;% + rand()*pressRange+pressOffset(1);
     
     opts.setWindSpeedAverage(wind);
-    TB1.simulate(sim, atmos = offsetAirData(:, ["HGT", "PRES", "TMP"]));
+    rocket.simulate(sim, atmos = offsetAirData(:, ["HGT", "PRES", "TMP"]));
     altData = openrocket.get_data(sim, [("Altitude"), ("Air pressure")]);
     apogeeList(i) = max(altData.("Altitude"));
     pressAppList(i) = pressalt("m", min(altData.("Air pressure")), "Pa")-pressalt("m", altData.("Air pressure")(1), "Pa");
