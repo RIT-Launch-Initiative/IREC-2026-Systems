@@ -1,6 +1,6 @@
 %% Environmental Sensitivity Assessment
 % IREC Systems 2026
-% Last updated 4 October 2025
+% Last updated 30 October 2025
 %% Setup
 clear; close all; clc;
 % Run a test OR sim
@@ -16,30 +16,36 @@ windBounds = [1.5 6.0]; % [min max] [m/s]
 windRange = windBounds(2)-windBounds(1);
 tempOffset = [-5 5]; % [K]
 tempRange = tempOffset(2)-tempOffset(1);
-pressOffset = [-5 5]*10^3; % [Pa]
+pressOffset = [-1 1]*10^3; % [Pa]
 pressRange = pressOffset(2) - pressOffset(1);
-% Reduction is currently 383 m for M6000, 366 m for N3800, 359 m for N3300,
-% 387 m for M3400
-appReduction = 383;
+% Reduction is currently 183 m for N3800
+appReduction = 183;
 % Use air data
 airDataFilePath = "C:\IREC-2026-Systems\atmosphereData\postFlightAtmos.mat";
 airdata = importdata(airDataFilePath);
 airdata.TMP = airdata.TMP + 273.15; % conv Celcius to Kelvin
 offsetAirData = airdata;
+% RasAero drag curve
+dragFilePath = "C:\IREC-2026-Systems\Data\CDplot-N3800-16.csv";
+rasDrag = import_rasaero_aerodata(dragFilePath);
+rasDrag = rasDrag.align("mach");
+rasDrag = table(rasDrag.mach, rasDrag.pick{"aoa", 0, "field", "CD"}, ...
+    VariableNames = ["MACH", "DRAG"]);
+rasDrag.MACH(1) = 0;
 
 %% Monte Carlo Loop
-N = 200; % Number of samples
+N = 5; % Number of samples
 apogeeList = zeros([N,1]);
 pressAppList = zeros([N,1]);
 elapsed = tic;
 for i = 1:N
     disp("Running simulation " + i + " of " + N)
     wind = windBounds(1) + rand()*windRange;
-    offsetAirData.TMP = airdata.TMP;% + rand()*tempRange+tempOffset(1);
-    offsetAirData.PRES = airdata.PRES;% + rand()*pressRange+pressOffset(1);
+    offsetAirData.TMP = airdata.TMP + rand()*tempRange + tempOffset(1);
+    offsetAirData.PRES = airdata.PRES + rand()*pressRange + pressOffset(1);
     
     opts.setWindSpeedAverage(wind);
-    rocket.simulate(sim, atmos = offsetAirData(:, ["HGT", "PRES", "TMP"]));
+    rocket.simulate(sim, atmos = offsetAirData(:, ["HGT", "PRES", "TMP"]), drag = rasDrag);
     altData = openrocket.get_data(sim, [("Altitude"), ("Air pressure")]);
     apogeeList(i) = max(altData.("Altitude"));
     pressAppList(i) = pressalt("m", min(altData.("Air pressure")), "Pa")-pressalt("m", altData.("Air pressure")(1), "Pa");
