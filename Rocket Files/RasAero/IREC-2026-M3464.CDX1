@@ -108,9 +108,9 @@
             <Fin>
                 <Count>4</Count>
                 <Chord>12</Chord>
-                <Span>5</Span>
-                <SweepDistance>4.8937</SweepDistance>
-                <TipChord>4.5</TipChord>
+                <Span>6.5</Span>
+                <SweepDistance>4</SweepDistance>
+                <TipChord>6</TipChord>
                 <Thickness>0.1875</Thickness>
                 <LERadius>0</LERadius>
                 <Location>12</Location>
@@ -122,8 +122,8 @@
         <BoatTail>
             <PartType>BoatTail</PartType>
             <Length>8</Length>
-            <Diameter>5</Diameter>
-            <RearDiameter>5</RearDiameter>
+            <Diameter>4</Diameter>
+            <RearDiameter>4</RearDiameter>
             <Location>117.4998</Location>
             <Color>Blue</Color>
         </BoatTail>
@@ -163,9 +163,9 @@
     <MachAlt></MachAlt>
     <SimulationList>
         <Simulation>
-            <SustainerLaunchWt>65.5799</SustainerLaunchWt>
+            <SustainerLaunchWt>66.1378</SustainerLaunchWt>
             <SustainerNozzleDiameter>0</SustainerNozzleDiameter>
-            <SustainerCG>76.2004</SustainerCG>
+            <SustainerCG>76.3074</SustainerCG>
             <SustainerIgnitionDelay>0</SustainerIgnitionDelay>
             <Booster1LaunchWt>0</Booster1LaunchWt>
             <Booster1SeparationDelay>0</Booster1SeparationDelay>

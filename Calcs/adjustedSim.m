@@ -4,7 +4,6 @@
 % This script runs openrocket simulations with adjustments for atmospheric
 % profile, drag curve, and with extra outputs
 % TO-DO
-% Show stability percent
 % Plot flight trajectory
 % Output max q (value, time)
 % 
@@ -13,8 +12,7 @@ clear; close all; clc;
 % Retrieve openrocket
 filepath = "C:\IREC-2026-Systems\Rocket Files\IREC-2026-M3464.ork";
 rocket = openrocket(filepath);
-% Reference simulations
-% "Baseline", "15mph-Midland-N3800", "15mph-Midland-N3300", and "15mph-Midland-M3400" are valid currently
+% Reference simulation
 sim = rocket.sims("15mph-Midland");
 %% Inputs
 % Rocket parameters
@@ -23,7 +21,8 @@ D = 6.2; % inches
 L = 0.0254*L; D = 0.0254*D; % conv to meter
 % Other parameters
 R = 0.287; % Specific gas constant for air
-
+alt_target = 3318; % meters
+alt_var = 30; % meters
 % Valid sites: "spaceport-midland", "spaceport-america", "urrg", "mars"
 site = launchsites("spaceport-midland"); 
 % Launch time
@@ -57,14 +56,24 @@ simData.("Indicated altitude") = pressalt("m", simData.("Air pressure"), "Pa") -
 simData.("Altitude error") = simData.("Indicated altitude") - simData.("Altitude");
 
 %% Generate parameters to output
+% Apogee
 ascentRange = timerange(eventfilter("LAUNCHROD"), eventfilter("APOGEE"));
 mAlt = max(simData.Altitude);
 mAltInd = max(simData.("Indicated altitude"));
 errAlt = mAlt - mAltInd;
+targetErr = mAlt - alt_target;
+if abs(targetErr) < alt_var
+    onTarget = true;
+else
+    onTarget = false;
+end
 % Stability
 stabData = simData(ascentRange, "Stability percent").("Stability percent");
 stabRod = stabData(2);
 stabMax = max(simData.("Stability percent"));
+% Flutter
+fins = rocket.component(class="FinSet");
+flutterFOS = FOS_finflutter(simData, fins);
 
 %% Plot outputs :)
 % plotStabPercent(simData)
@@ -72,10 +81,11 @@ stabMax = max(simData.("Stability percent"));
 % plotErrorVAltitude(simData)
 
 %% Text output
+fprintf("\nGeometric Apogee: %4.0f m\nIndicated Apogee: %4.0f m\nMeasurement Error: %3.0f m\n"...
+    + "Apogee Error: %2.1f m\n", mAlt, mAltInd, errAlt, targetErr);
 fprintf("\nLaunch stability: %2.2f percent\nMaximum stability: %2.2f percent\n",...
       stabRod, stabMax);
-% fprintf("\nGeometric apogee: %4.0f m\nIndicated apogee: %4.0f m\nApogee error: %3.0f m\n",...
-%     mAlt, mAltInd, errAlt);
+fprintf("\nFlutter Factor of Safety: %1.2f\n", flutterFOS);
 
 %% Functions
 function plotStabPercent(simData)
