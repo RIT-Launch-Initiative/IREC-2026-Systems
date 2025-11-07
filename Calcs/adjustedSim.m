@@ -10,7 +10,7 @@
 %% Setup
 clear; close all; clc;
 % Retrieve openrocket
-filepath = "C:\IREC-2026-Systems\Rocket Files\IREC-2026-M3464.ork";
+filepath = "C:\IREC-2026-Systems\Rocket Files\RISK.ork";
 rocket = openrocket(filepath);
 % Reference simulation
 sim = rocket.sims("15mph-Midland");
@@ -54,6 +54,8 @@ simData.("Stability percent") = 100*simData.("Stability margin")*D/L;
 % Add Indicated altitude to table
 simData.("Indicated altitude") = pressalt("m", simData.("Air pressure"), "Pa") - pressalt("m", simData{1, "Air pressure"}, "Pa");
 simData.("Altitude error") = simData.("Indicated altitude") - simData.("Altitude");
+% Times vector
+times = simData.Time;
 
 %% Generate parameters to output
 % Apogee
@@ -63,9 +65,9 @@ mAltInd = max(simData.("Indicated altitude"));
 errAlt = mAlt - mAltInd;
 targetErr = mAlt - alt_target;
 if abs(targetErr) < alt_var
-    onTarget = true;
+    strTarget = "";
 else
-    onTarget = false;
+    strTarget = "";
 end
 % Stability
 stabData = simData(ascentRange, "Stability percent").("Stability percent");
@@ -74,6 +76,14 @@ stabMax = max(simData.("Stability percent"));
 % Flutter
 fins = rocket.component(class="FinSet");
 flutterFOS = FOS_finflutter(simData, fins);
+% Dynamic pressure
+qData = simData(ascentRange, "Dynamic pressure").("Dynamic pressure");
+max_q = [0 0];
+for i = 1 : length(qData)
+    if qData(i) > max_q(2)
+        max_q = [seconds(times(i)) qData(i)];
+    end
+end
 
 %% Plot outputs :)
 % plotStabPercent(simData)
@@ -83,9 +93,11 @@ flutterFOS = FOS_finflutter(simData, fins);
 %% Text output
 fprintf("\nGeometric Apogee: %4.0f m\nIndicated Apogee: %4.0f m\nMeasurement Error: %3.0f m\n"...
     + "Apogee Error: %2.1f m\n", mAlt, mAltInd, errAlt, targetErr);
+fprintf("\n")
 fprintf("\nLaunch stability: %2.2f percent\nMaximum stability: %2.2f percent\n",...
       stabRod, stabMax);
 fprintf("\nFlutter Factor of Safety: %1.2f\n", flutterFOS);
+fprintf("\nMax q: %5.1f kPa at %.2f seconds\n", (max_q(2)*10^-3), max_q(1))
 
 %% Functions
 function plotStabPercent(simData)

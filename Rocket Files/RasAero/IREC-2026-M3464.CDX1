@@ -3,7 +3,7 @@
     <RocketDesign>
         <NoseCone>
             <PartType>NoseCone</PartType>
-            <Length>19</Length>
+            <Length>16</Length>
             <Diameter>6.2</Diameter>
             <Shape>Tangent Ogive</Shape>
             <BluntRadius>0</BluntRadius>
@@ -19,7 +19,7 @@
             <RailGuideDiameter>0</RailGuideDiameter>
             <RailGuideHeight>0</RailGuideHeight>
             <LaunchShoeArea>0</LaunchShoeArea>
-            <Location>19</Location>
+            <Location>16</Location>
             <Color>Blue</Color>
             <BoattailLength>0</BoattailLength>
             <BoattailRearDiameter>0</BoattailRearDiameter>
@@ -35,7 +35,7 @@
             <RailGuideDiameter>0</RailGuideDiameter>
             <RailGuideHeight>0</RailGuideHeight>
             <LaunchShoeArea>0</LaunchShoeArea>
-            <Location>25.4999</Location>
+            <Location>22.5</Location>
             <Color>Blue</Color>
             <BoattailLength>0</BoattailLength>
             <BoattailRearDiameter>0</BoattailRearDiameter>
@@ -51,7 +51,7 @@
             <RailGuideDiameter>0</RailGuideDiameter>
             <RailGuideHeight>0</RailGuideHeight>
             <LaunchShoeArea>0</LaunchShoeArea>
-            <Location>57.4999</Location>
+            <Location>54.4999</Location>
             <Color>Blue</Color>
             <BoattailLength>0</BoattailLength>
             <BoattailRearDiameter>0</BoattailRearDiameter>
@@ -67,7 +67,7 @@
             <RailGuideDiameter>0</RailGuideDiameter>
             <RailGuideHeight>0</RailGuideHeight>
             <LaunchShoeArea>0</LaunchShoeArea>
-            <Location>61.4999</Location>
+            <Location>58.4999</Location>
             <Color>Blue</Color>
             <BoattailLength>0</BoattailLength>
             <BoattailRearDiameter>0</BoattailRearDiameter>
@@ -83,7 +83,7 @@
             <RailGuideDiameter>0</RailGuideDiameter>
             <RailGuideHeight>0</RailGuideHeight>
             <LaunchShoeArea>0</LaunchShoeArea>
-            <Location>74.4999</Location>
+            <Location>71.4999</Location>
             <Color>Blue</Color>
             <BoattailLength>0</BoattailLength>
             <BoattailRearDiameter>0</BoattailRearDiameter>
@@ -99,7 +99,7 @@
             <RailGuideDiameter>0.621</RailGuideDiameter>
             <RailGuideHeight>0.6845</RailGuideHeight>
             <LaunchShoeArea>0</LaunchShoeArea>
-            <Location>89.9998</Location>
+            <Location>86.9998</Location>
             <Color>Blue</Color>
             <BoattailLength>0</BoattailLength>
             <BoattailRearDiameter>0</BoattailRearDiameter>
@@ -109,9 +109,9 @@
                 <Count>4</Count>
                 <Chord>12</Chord>
                 <Span>6.5</Span>
-                <SweepDistance>4</SweepDistance>
+                <SweepDistance>4.5</SweepDistance>
                 <TipChord>6</TipChord>
-                <Thickness>0.1875</Thickness>
+                <Thickness>0.25</Thickness>
                 <LERadius>0</LERadius>
                 <Location>12</Location>
                 <AirfoilSection>Rounded</AirfoilSection>
@@ -122,9 +122,9 @@
         <BoatTail>
             <PartType>BoatTail</PartType>
             <Length>8</Length>
-            <Diameter>4</Diameter>
-            <RearDiameter>4</RearDiameter>
-            <Location>117.4998</Location>
+            <Diameter>3.8</Diameter>
+            <RearDiameter>3.8</RearDiameter>
+            <Location>114.4998</Location>
             <Color>Blue</Color>
         </BoatTail>
         <Surface>Sheet Metal</Surface>
@@ -163,9 +163,9 @@
     <MachAlt></MachAlt>
     <SimulationList>
         <Simulation>
-            <SustainerLaunchWt>66.1378</SustainerLaunchWt>
+            <SustainerLaunchWt>61.4199</SustainerLaunchWt>
             <SustainerNozzleDiameter>0</SustainerNozzleDiameter>
-            <SustainerCG>76.3074</SustainerCG>
+            <SustainerCG>74.1841</SustainerCG>
             <SustainerIgnitionDelay>0</SustainerIgnitionDelay>
             <Booster1LaunchWt>0</Booster1LaunchWt>
             <Booster1SeparationDelay>0</Booster1SeparationDelay>
