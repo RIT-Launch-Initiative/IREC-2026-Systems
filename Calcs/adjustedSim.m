@@ -57,17 +57,21 @@ simData.("Altitude error") = simData.("Indicated altitude") - simData.("Altitude
 % Times vector
 times = simData.Time;
 
-%% Generate parameters to output
+%% Generate text output
 % Apogee
 ascentRange = timerange(eventfilter("LAUNCHROD"), eventfilter("APOGEE"));
 mAlt = max(simData.Altitude);
 mAltInd = max(simData.("Indicated altitude"));
 errAlt = mAlt - mAltInd;
 targetErr = mAlt - alt_target;
-if abs(targetErr) < alt_var
-    strTarget = "";
+if abs(targetErr) <= alt_var
+    strTarget = "APOGEE TARGET ACHIEVED";
 else
-    strTarget = "";
+    if targetErr > 0
+        strTarget = "OVERSHOOT";
+    else
+        strTarget = "UNDERSHOOT";
+    end
 end
 % Stability
 stabData = simData(ascentRange, "Stability percent").("Stability percent");
@@ -86,17 +90,17 @@ for i = 1 : length(qData)
 end
 
 %% Plot outputs :)
-% plotStabPercent(simData)
-% plotAltitudeError(simData)
-% plotErrorVAltitude(simData)
+plotStabPercent(simData)
+plotAltitudeError(simData)
+plotErrorVAltitude(simData)
 
 %% Text output
 fprintf("\nGeometric Apogee: %4.0f m\nIndicated Apogee: %4.0f m\nMeasurement Error: %3.0f m\n"...
     + "Apogee Error: %2.1f m\n", mAlt, mAltInd, errAlt, targetErr);
-fprintf("\n")
+fprintf("%s\n", strTarget);
 fprintf("\nLaunch stability: %2.2f percent\nMaximum stability: %2.2f percent\n",...
       stabRod, stabMax);
-fprintf("\nFlutter Factor of Safety: %1.2f\n", flutterFOS);
+fprintf("\nFlutter FoS: %1.2f\n", flutterFOS);
 fprintf("\nMax q: %5.1f kPa at %.2f seconds\n", (max_q(2)*10^-3), max_q(1))
 
 %% Functions
