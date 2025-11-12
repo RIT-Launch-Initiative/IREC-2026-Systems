@@ -11,14 +11,14 @@
 clear; close all; clc;
 % Retrieve openrocket
 filepath = "C:\IREC-2026-Systems\Rocket Files\RISK.ork";
-rocket = openrocket(filepath);
+risk = openrocket(filepath);
+rocket = risk.rocket();
 % Reference simulation
-sim = rocket.sims("15mph-Midland");
+sim = risk.sims("15mph-Midland");
 %% Inputs
-% Rocket parameters
-L = 132; % inches
-D = 6.2; % inches
-L = 0.0254*L; D = 0.0254*D; % conv to meter
+% risk parameters
+L = rocket.getLength();
+[D, ~] = risk.refdims();
 % Other parameters
 R = 0.287; % Specific gas constant for air
 alt_target = 3318; % meters
@@ -44,7 +44,7 @@ rasDrag = table(rasDrag.mach, rasDrag.pick{"aoa", 0, "field", "CD"}, ...
 rasDrag.MACH(1) = 0;
 
 %% Simulate!!
-simData = rocket.simulate(sim, outputs = "ALL", atmos = airdata(:, ["HGT", "PRES", "TMP"]),...
+simData = risk.simulate(sim, outputs = "ALL", atmos = airdata(:, ["HGT", "PRES", "TMP"]),...
     wind = airdata, drag = rasDrag);
 % Add density and dynamic pressure to table
 simData.("Air density") = simData.("Air pressure")./(1000*R*simData.("Air temperature"));
@@ -78,7 +78,7 @@ stabData = simData(ascentRange, "Stability percent").("Stability percent");
 stabRod = stabData(2);
 stabMax = max(simData.("Stability percent"));
 % Flutter
-fins = rocket.component(class="FinSet");
+fins = risk.component(class="FinSet");
 flutterFOS = FOS_finflutter(simData, fins);
 % Dynamic pressure
 qData = simData(ascentRange, "Dynamic pressure").("Dynamic pressure");
@@ -90,9 +90,10 @@ for i = 1 : length(qData)
 end
 
 %% Plot outputs :)
-plotStabPercent(simData)
 plotAltitudeError(simData)
 plotErrorVAltitude(simData)
+plotStabPercent(simData)
+plotCPlocation(simData)
 
 %% Text output
 fprintf("\nGeometric Apogee: %4.0f m\nIndicated Apogee: %4.0f m\nMeasurement Error: %3.0f m\n"...
@@ -108,6 +109,7 @@ function plotStabPercent(simData)
     % Trim data
     ascentRange = timerange(eventfilter("LAUNCHROD"), eventfilter("APOGEE"), "openleft");
     stabData = simData(ascentRange, ["Stability percent", "Angle of attack"]);
+    stabData.("Angle of attack") = (180/pi)*stabData.("Angle of attack");
     % Plot the data
     figure(name = "Stability")
     hold on;
@@ -168,4 +170,19 @@ function plotErrorVAltitude(simData)
     % Other plot related things
     xlabel("Time [s]")
     legend("Altitude", "Indicated altitude", "Error", "location", "northeast")
+end
+
+function plotCPlocation(simData)
+    % Trim data
+    ascentRange = timerange(eventfilter("LAUNCHROD"), eventfilter("APOGEE"), "openleft");
+    stabData = simData(ascentRange, ["CP location", "Angle of attack", "Mach number"]);
+    stabData.("CP location") = stabData.("CP location")/0.0254;
+    % Plot the data
+    figure(name = "CP location")
+    hold on;
+    % Left side
+    yyaxis("left")
+    plot(stabData, "Time", "CP location", "Color", "r");
+    ylabel("CP location [inches]")
+    xlabel("Time [s]")
 end
