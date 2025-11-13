@@ -89,6 +89,12 @@ for i = 1 : length(qData)
     end
 end
 
+maxVel = max(simData.("Total velocity"));
+maxMach = max(simData.("Mach number"));
+maxAccel = max(simData.("Total acceleration"));
+maxG = maxAccel/9.81;
+
+
 %% Plot outputs :)
 plotAltitudeError(simData)
 plotErrorVAltitude(simData)
@@ -96,13 +102,15 @@ plotStabPercent(simData)
 plotCPlocation(simData)
 
 %% Text output
+fprintf("%s\n", strTarget);
 fprintf("\nGeometric Apogee: %4.0f m\nIndicated Apogee: %4.0f m\nMeasurement Error: %3.0f m\n"...
     + "Apogee Error: %2.1f m\n", mAlt, mAltInd, errAlt, targetErr);
-fprintf("%s\n", strTarget);
+fprintf("\nMaximum velocity: %4.0f m/s\nMaximum acceleration: %3.0f m/s^2 (%2.1f g)\n" + ...
+    "Maximum mach number: %1.2f\n", maxVel, maxAccel, maxG, maxMach);
 fprintf("\nLaunch stability: %2.2f percent\nMaximum stability: %2.2f percent\n",...
       stabRod, stabMax);
 fprintf("\nFlutter FoS: %1.2f\n", flutterFOS);
-fprintf("\nMax q: %5.1f kPa at %.2f seconds\n", (max_q(2)*10^-3), max_q(1))
+fprintf("\nMax q: %.2f kPa at %.2f seconds\n", (max_q(2)*10^-3), max_q(1))
 
 %% Functions
 function plotStabPercent(simData)
