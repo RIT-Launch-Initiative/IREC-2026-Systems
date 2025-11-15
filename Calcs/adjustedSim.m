@@ -31,7 +31,7 @@ lTime.time = [10, 21, 00]; % [hour, minute, second]
 airDataFilePath = "C:\IREC-2026-Systems\atmosphereData\postFlightAtmos.mat";
 
 % Rasaero drag curve
-dragFilePath = "C:\IREC-2026-Systems\Data\CDplot-M3464.csv";
+dragFilePath = "C:\IREC-2026-Systems\Data\CDplot-RISK.csv";
 
 %% Get atmosphere
 airdata = importdata(airDataFilePath);
@@ -88,18 +88,20 @@ for i = 1 : length(qData)
         max_q = [seconds(times(i)) qData(i)];
     end
 end
-
+accelData = simData(ascentRange, "Total acceleration");
 maxVel = max(simData.("Total velocity"));
 maxMach = max(simData.("Mach number"));
-maxAccel = max(simData.("Total acceleration"));
+maxAccel = max(accelData.("Total acceleration"));
 maxG = maxAccel/9.81;
 
 
 %% Plot outputs :)
-plotAltitudeError(simData)
-plotErrorVAltitude(simData)
+plotRange = timerange(eventfilter("LAUNCH"), eventfilter("DROGUE"));
+plot_openrocket(simData(plotRange, :), "Altitude", "Total velocity", end_ev = "DROGUE", labels = ["LAUNCHROD", "BURNOUT", "APOGEE"])
+% plotAltitudeError(simData)
+% plotErrorVAltitude(simData)
 plotStabPercent(simData)
-plotCPlocation(simData)
+% plotCPlocation(simData)
 
 %% Text output
 fprintf("%s\n", strTarget);
@@ -113,6 +115,18 @@ fprintf("\nFlutter FoS: %1.2f\n", flutterFOS);
 fprintf("\nMax q: %.2f kPa at %.2f seconds\n", (max_q(2)*10^-3), max_q(1))
 
 %% Functions
+function plotMotion(simData)
+    ascentRange = timerange(eventfilter("LAUNCHROD"), eventfilter("DROGUE"), "openleft");
+    data = simData(ascentRange, ["Altitude", "Total velocity"]);
+    figure(name = "Total Motion")
+    xlabel("Time [s]")
+    yyaxis("left");
+    plot(data, "Time", "Altitude")
+    ylabel("Altitude [m]")
+    yyaxis("right")
+    plot(data, "Time", "Total velocity")
+    ylabel("Velocity [m/s]")
+end
 function plotStabPercent(simData)
     % Trim data
     ascentRange = timerange(eventfilter("LAUNCHROD"), eventfilter("APOGEE"), "openleft");
@@ -123,15 +137,19 @@ function plotStabPercent(simData)
     hold on;
     % Left side
     yyaxis("left")
-    plot(stabData, "Time", "Stability percent", "Color", "b");
+    plot(stabData, "Time", "Stability percent");
     ylabel("Stability [%]")
     % Right side
     yyaxis("right")
-    plot(stabData, "Time", "Angle of attack", "Color", "r");
+    plot(stabData, "Time", "Angle of attack");
     ylabel("Angle of Attack [degrees]")
     hold off;
     % Finish plot
     xlabel("Time [s]")
+    % xl = xline(ev_in_range.Time(selected_ev), "-k", ...
+    % ev_in_range.EventLabels(selected_ev), ...
+    % Interpreter = "none", HandleVisibility = "off");
+    % xl(end).LabelHorizontalAlignment = "left";
 end
 function plotAltitudeError(simData)
     % Adjust data for plotting
@@ -179,7 +197,6 @@ function plotErrorVAltitude(simData)
     xlabel("Time [s]")
     legend("Altitude", "Indicated altitude", "Error", "location", "northeast")
 end
-
 function plotCPlocation(simData)
     % Trim data
     ascentRange = timerange(eventfilter("LAUNCHROD"), eventfilter("APOGEE"), "openleft");

@@ -1,10 +1,10 @@
 %% Environmental Sensitivity Assessment
 % IREC Systems 2026
-% Last updated 30 October 2025
+% Last updated 14 November 2025
 %% Setup
 clear; close all; clc;
 % Run a test OR sim
-filePath = "C:\IREC-2026-Systems\Rocket Files\IREC-2026-N3800.ork"; 
+filePath = "C:\IREC-2026-Systems\Rocket Files\RISK.ork"; 
 if ~isfile(filePath)
     error("Error: not on path", filePath);
 end
@@ -14,10 +14,9 @@ sim = rocket.sims(simName);
 opts = sim.getOptions();
 windBounds = [1.5 6.0]; % [min max] [m/s]
 windRange = windBounds(2)-windBounds(1);
-tempOffset = [-5 5]; % [K]
-tempRange = tempOffset(2)-tempOffset(1);
-pressOffset = [-1 1]*10^3; % [Pa]
-pressRange = pressOffset(2) - pressOffset(1);
+tempSpread = 10; % [K]
+pressSpread = 2*10^3; % [Pa]
+%pressRange = pressOffset(2) - pressOffset(1);
 % Reduction is currently 183 m for N3800
 appReduction = 183;
 % Use air data
@@ -26,7 +25,7 @@ airdata = importdata(airDataFilePath);
 airdata.TMP = airdata.TMP + 273.15; % conv Celcius to Kelvin
 offsetAirData = airdata;
 % RasAero drag curve
-dragFilePath = "C:\IREC-2026-Systems\Data\CDplot-N3800-16.csv";
+dragFilePath = "C:\IREC-2026-Systems\Data\CDplot-RISK.csv";
 rasDrag = import_rasaero_aerodata(dragFilePath);
 rasDrag = rasDrag.align("mach");
 rasDrag = table(rasDrag.mach, rasDrag.pick{"aoa", 0, "field", "CD"}, ...
@@ -34,15 +33,15 @@ rasDrag = table(rasDrag.mach, rasDrag.pick{"aoa", 0, "field", "CD"}, ...
 rasDrag.MACH(1) = 0;
 
 %% Monte Carlo Loop
-N = 5; % Number of samples
+N = 20; % Number of samples
 apogeeList = zeros([N,1]);
 pressAppList = zeros([N,1]);
 elapsed = tic;
 for i = 1:N
     disp("Running simulation " + i + " of " + N)
     wind = windBounds(1) + rand()*windRange;
-    offsetAirData.TMP = airdata.TMP + rand()*tempRange + tempOffset(1);
-    offsetAirData.PRES = airdata.PRES + rand()*pressRange + pressOffset(1);
+    offsetAirData.TMP = airdata.TMP + (rand()-0.5)*tempSpread;
+    offsetAirData.PRES = airdata.PRES; % + (rand()-0.5)*pressSpread;
     
     opts.setWindSpeedAverage(wind);
     rocket.simulate(sim, atmos = offsetAirData(:, ["HGT", "PRES", "TMP"]), drag = rasDrag);
@@ -64,17 +63,17 @@ sigPressAlt = std(pressAppList);
 sigErr = std(appErr);
 % Conversions factors
 C1 = 3.28; % m/s to mph
-tempsF = (tempOffset)*1.8;
-pressOffset = pressOffset*10^-3;
+tempF = tempSpread*1.8;
+pressSpread = pressSpread*10^-3;
 %% Output
 fprintf("\nSimulation used: " + simName);
 fprintf("\n%d Simulations run varying parameters in the listed ranges", N);
 fprintf("\n   Wind Speed: %1.1f to %1.1f [m/s]; %2.1f to %2.1f [mph]",...
     windBounds(1), windBounds(2), windBounds(1)*C1, windBounds(2)*C1);
-% fprintf("\n   Temperature profile offset: %2.1f to %2.1f [Celcius]; %2.1f to %2.1f [Fahrenheit]",...
-%     tempOffset(1), tempOffset(2), tempsF(1), tempsF(2));
-% fprintf("\n   Pressure profile offset: %4.2f to %4.2f [kPa]",...
-%     pressOffset(1), pressOffset(2));
+fprintf("\n   Temperature offest spread: %2.1f [Celcius]; %2.1f [Fahrenheit]",...
+    tempSpread, tempF);
+fprintf("\n   Pressure offset spread: %4.2f [kPa]",...
+    pressSpread);
 fprintf("\nGFS data for Midland on 21 June 2025 used for atmosphere model");
 fprintf("\n2 sigma bounds");
 

@@ -7,18 +7,41 @@ clc
 run_sweep = true;
 run_monte = true;
 run_opt = true;
-rocket_path = "Rocket Files\IREC-2026-N3800.ork";
+rocket_path = "Rocket Files\RISK.ork";
 rocket=openrocket(rocket_path);
 
 %Main Deployment Input Values
 forward_reco_tube=rocket.component(name = "Forward Reco Tube");
-forward_length=forward_reco_tube.getLength(); %meters
 forward_ir=forward_reco_tube.getInnerRadius(); %meters
+bulkhead1=rocket.component(name="Nosecone Bulkhead (Top)");
+bulkhead1_coord=bulkhead1.getPosition();
+bulkhead2=rocket.component(name="Upper Avi Bulkhead");
+bulkhead2_coord=bulkhead2.getPosition();
+bulkhead1_loc=bulkhead1_coord.x; %meters
+bulkhead2_loc=bulkhead2_coord.x; %meters
+if bulkhead2_loc<0
+    bulkhead2_loc=bulkhead2_loc*(-1);
+elseif bulkhead1_loc<0
+    bulkhead1_loc=bulkhead1_loc*(-1);
+end
+forward_length= bulkhead2_loc + bulkhead1_loc;
+
 
 %Drogue Deployment Input Values
 aft_reco_tube=rocket.component(name = "Aft Reco Tube"); 
-aft_length=aft_reco_tube.getLength(); %meters
 aft_ir=aft_reco_tube.getInnerRadius(); %meters
+bulkhead3=rocket.component(name="Lower Avi Bulkhead");
+bulkhead3_coord=bulkhead3.getPosition();
+bulkhead4=rocket.component(name="Bulkhead");
+bulkhead4_coord=bulkhead4.getPosition();
+bulkhead3_loc=bulkhead3_coord.x; %meters
+bulkhead4_loc=bulkhead4_coord.x; %meters
+if bulkhead4_loc<0
+    bulkhead4_loc=bulkhead4_loc*(-1);
+elseif bulkhead3_loc<0
+    bulkhead3_loc=bulkhead3_loc*(-1);
+end
+aft_length= bulkhead4_loc + bulkhead3_loc;%meters
 
 %Constants
 primary_charge=10; %psi
@@ -61,7 +84,7 @@ main_grain_secondary = ceil(main_2 / 10) * 10;
 
 fprintf('Main Deployment Primary: Grams of black powder: %.2f\n',main_grams_bp_primary)
 fprintf('Main Deployment Primary: Grains of black powder: %.0f\n\n',main_grain_primary)
-fprintf('Main Deployment Primary: Grams of black powder: %.2f\n',main_grams_bp_secondary)
+fprintf('Main Deployment Secondary: Grams of black powder: %.2f\n',main_grams_bp_secondary)
 fprintf('Main Deployment Secondary: Grains of black powder: %.0f\n\n\n',main_grain_secondary)
 
 fprintf('Drogue Deployment Primary: Grams of black powder: %.2f\n',drogue_grams_bp_primary)

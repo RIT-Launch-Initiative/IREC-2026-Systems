@@ -36,16 +36,20 @@ sim = rocket.sims(1); % get simulation by number
 sim.getOptions().setWindTurbulenceIntensity(0);
 openrocket.simulate(sim); % execute simulation
 data = openrocket.get_data(sim); % get all of the simulation's outputs
-drogue_deploy_velocity_open_rocket = data{eventfilter("APOGEE"), "Total velocity"}; % Initial velocity at deployment in m/s taken from open rocket total velocity
+drogue_deploy_velocity = data{eventfilter("APOGEE"), "Total velocity"}; % Initial velocity at deployment in m/s taken from open rocket total velocity
+
+
 
 %Drogue Sim Outputs
-drogue_tempature = data{eventfilter("APOGEE"), "Air temperature"}; %In Kelvin
-drogue_pressure = data{eventfilter("APOGEE"), "Air pressure"}; %In Pascal
+drogue_tempature = data{eventfilter("DROGUE"), "Air temperature"}; %In Kelvin
+drogue_pressure = data{eventfilter("DROGUE"), "Air pressure"}; %In Pascal
 R= 287.05; %J/(kg*K)
 drogue_deployment_alitutde_air_density=drogue_pressure/(drogue_tempature*R);%Air density in kg/m^3
 drogue_range = timerange(eventfilter("LAUNCHROD"), eventfilter("DROGUE"), "openleft");
 data_drogue = data(drogue_range, :);
-drogue_descent_rate = data_drogue.("Total velocity")(end);
+drogue_range_2=timerange(eventfilter('DROGUE'),eventfilter("MAIN"),'openleft');
+data_drogue_2=data(drogue_range_2,:);
+drogue_descent_rate = data_drogue_2.("Total velocity")(end);
 
 % Main Air Sim Output
 main_range = timerange(eventfilter("LAUNCHROD"), eventfilter("MAIN"), "openleft");
@@ -53,7 +57,9 @@ data_main = data(main_range, :);
 main_pressure = data_main.("Air pressure")(end); %In Pascal
 main_tempature = data_main.("Air temperature")(end); %In Kelvin
 chute_deployment_alitutde_air_density = main_pressure/(main_tempature*R); %Air density in kg/m^3
-main_descent_rate = data_main.("Total velocity")(end);
+main_range_2=timerange(eventfilter('MAIN'),eventfilter("GROUND_HIT"),'openleft');
+data_main_2=data(main_range_2,:);
+main_descent_rate=data_main_2.("Total velocity")(180);
 
 % Environmental parameters
 g = 9.81; % Acceleration due to gravity in m/s^2
@@ -64,7 +70,7 @@ data_ground = data(ground_range, :);
 ground_hit_velocity=data_ground.("Total velocity")(end); %ground hit velocity in m/s
 
 % maximum drag force when fully deployed
-drogue_max_drag_force = 0.5 * drogue_deployment_alitutde_air_density * drogue_deploy_velocity_open_rocket^2 * drogue_drag_Cd * drogue_drag_area;
+drogue_max_drag_force = 0.5 * drogue_deployment_alitutde_air_density * drogue_deploy_velocity^2 * drogue_drag_Cd * drogue_drag_area;
 
 
 % Display results for drogue
@@ -90,7 +96,7 @@ fprintf('Mass of rocket at burnout: %.2f kg\n', post_boost_mass);
 fprintf('Chute area: %.2f m^2\n', chute_drag_area);
 fprintf('Chute coefficient (Cd): %.2f\n', chute_drag_Cd);
 fprintf('Chute altitude air density: %.3f kg/m^3\n', chute_deployment_alitutde_air_density);
-fprintf('Maximum main snatch force: %.2f N\n', main_max_drag_force*10^-3);
+fprintf('Maximum main snatch force: %.2f N\n', main_max_drag_force);
 fprintf('Main descent rate: %.2f m/s\n\n\n', main_descent_rate);
 
 %Display Ground Hit
