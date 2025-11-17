@@ -21,8 +21,8 @@ L = rocket.getLength();
 [D, ~] = risk.refdims();
 % Other parameters
 R = 0.287; % Specific gas constant for air
-alt_target = 3318; % meters
-alt_var = 30; % meters
+alt_target = 3423; % meters
+alt_var = 127; % meters
 % Valid sites: "spaceport-midland", "spaceport-america", "urrg", "mars"
 site = launchsites("spaceport-midland"); 
 % Launch time
@@ -97,7 +97,7 @@ maxG = maxAccel/9.81;
 
 %% Plot outputs :)
 plotRange = timerange(eventfilter("LAUNCH"), eventfilter("DROGUE"));
-plot_openrocket(simData(plotRange, :), "Altitude", "Total velocity", end_ev = "DROGUE", labels = ["LAUNCHROD", "BURNOUT", "APOGEE"])
+plot_openrocket(simData(plotRange, :), "Altitude", "Total velocity", end_ev = "DROGUE", labels = ["LAUNCHROD", "BURNOUT", "APOGEE"]);
 % plotAltitudeError(simData)
 % plotErrorVAltitude(simData)
 plotStabPercent(simData)

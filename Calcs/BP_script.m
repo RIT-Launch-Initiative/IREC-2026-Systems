@@ -7,7 +7,7 @@ clc
 run_sweep = true;
 run_monte = true;
 run_opt = true;
-rocket_path = "Rocket Files\RISK.ork";
+rocket_path = "C:\IREC-2026-Systems\Rocket Files\RISK.ork";
 rocket=openrocket(rocket_path);
 
 %Main Deployment Input Values
@@ -19,12 +19,13 @@ bulkhead2=rocket.component(name="Upper Avi Bulkhead");
 bulkhead2_coord=bulkhead2.getPosition();
 bulkhead1_loc=bulkhead1_coord.x; %meters
 bulkhead2_loc=bulkhead2_coord.x; %meters
-if bulkhead2_loc<0
-    bulkhead2_loc=bulkhead2_loc*(-1);
-elseif bulkhead1_loc<0
-    bulkhead1_loc=bulkhead1_loc*(-1);
-end
-forward_length= bulkhead2_loc + bulkhead1_loc;
+% if bulkhead2_loc<0
+%     bulkhead2_loc=bulkhead2_loc*(-1);
+% elseif bulkhead1_loc<0
+%     bulkhead1_loc=bulkhead1_loc*(-1);
+% end
+% forward_length= bulkhead2_loc + bulkhead1_loc;
+forward_length = abs(bulkhead2_loc - bulkhead1_loc);
 
 
 %Drogue Deployment Input Values

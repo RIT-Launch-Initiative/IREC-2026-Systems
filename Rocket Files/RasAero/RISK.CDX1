@@ -28,7 +28,7 @@
         </BodyTube>
         <BodyTube>
             <PartType>BodyTube</PartType>
-            <Length>29.9999</Length>
+            <Length>27.4999</Length>
             <Diameter>6.2</Diameter>
             <LaunchLugDiameter>0</LaunchLugDiameter>
             <LaunchLugLength>0</LaunchLugLength>
@@ -44,14 +44,14 @@
         </BodyTube>
         <BodyTube>
             <PartType>BodyTube</PartType>
-            <Length>2</Length>
+            <Length>3.25</Length>
             <Diameter>6.2</Diameter>
             <LaunchLugDiameter>0</LaunchLugDiameter>
             <LaunchLugLength>0</LaunchLugLength>
             <RailGuideDiameter>0</RailGuideDiameter>
             <RailGuideHeight>0</RailGuideHeight>
             <LaunchShoeArea>0</LaunchShoeArea>
-            <Location>52.4999</Location>
+            <Location>49.9999</Location>
             <Color>Blue</Color>
             <BoattailLength>0</BoattailLength>
             <BoattailRearDiameter>0</BoattailRearDiameter>
@@ -60,14 +60,14 @@
         </BodyTube>
         <BodyTube>
             <PartType>BodyTube</PartType>
-            <Length>13</Length>
+            <Length>12.5</Length>
             <Diameter>6.2</Diameter>
             <LaunchLugDiameter>0</LaunchLugDiameter>
             <LaunchLugLength>0</LaunchLugLength>
             <RailGuideDiameter>0</RailGuideDiameter>
             <RailGuideHeight>0</RailGuideHeight>
             <LaunchShoeArea>0</LaunchShoeArea>
-            <Location>54.4999</Location>
+            <Location>53.2499</Location>
             <Color>Blue</Color>
             <BoattailLength>0</BoattailLength>
             <BoattailRearDiameter>0</BoattailRearDiameter>
@@ -83,7 +83,7 @@
             <RailGuideDiameter>0</RailGuideDiameter>
             <RailGuideHeight>0</RailGuideHeight>
             <LaunchShoeArea>0</LaunchShoeArea>
-            <Location>67.4999</Location>
+            <Location>65.7499</Location>
             <Color>Blue</Color>
             <BoattailLength>0</BoattailLength>
             <BoattailRearDiameter>0</BoattailRearDiameter>
@@ -99,7 +99,7 @@
             <RailGuideDiameter>0.621</RailGuideDiameter>
             <RailGuideHeight>0.6845</RailGuideHeight>
             <LaunchShoeArea>0</LaunchShoeArea>
-            <Location>81.9998</Location>
+            <Location>80.2498</Location>
             <Color>Blue</Color>
             <BoattailLength>0</BoattailLength>
             <BoattailRearDiameter>0</BoattailRearDiameter>
@@ -108,8 +108,8 @@
             <Fin>
                 <Count>4</Count>
                 <Chord>12</Chord>
-                <Span>6.25</Span>
-                <SweepDistance>6</SweepDistance>
+                <Span>6.125</Span>
+                <SweepDistance>6.5</SweepDistance>
                 <TipChord>4</TipChord>
                 <Thickness>0.25</Thickness>
                 <LERadius>0</LERadius>
@@ -124,7 +124,7 @@
             <Length>8</Length>
             <Diameter>3.8</Diameter>
             <RearDiameter>3.8</RearDiameter>
-            <Location>109.4998</Location>
+            <Location>107.7498</Location>
             <Color>Blue</Color>
         </BoatTail>
         <Surface>Sheet Metal</Surface>
@@ -153,7 +153,7 @@
         <DeviceType2>Parachute</DeviceType2>
         <Event1>True</Event1>
         <Event2>True</Event2>
-        <Size1>95.9998</Size1>
+        <Size1>119.9998</Size1>
         <Size2>35.9839</Size2>
         <EventType1>Altitude</EventType1>
         <EventType2>Apogee</EventType2>
@@ -163,9 +163,9 @@
     <MachAlt></MachAlt>
     <SimulationList>
         <Simulation>
-            <SustainerLaunchWt>63.3532</SustainerLaunchWt>
+            <SustainerLaunchWt>63.7384</SustainerLaunchWt>
             <SustainerNozzleDiameter>0</SustainerNozzleDiameter>
-            <SustainerCG>69.6245</SustainerCG>
+            <SustainerCG>68.0172</SustainerCG>
             <SustainerIgnitionDelay>0</SustainerIgnitionDelay>
             <Booster1LaunchWt>0</Booster1LaunchWt>
             <Booster1SeparationDelay>0</Booster1SeparationDelay>

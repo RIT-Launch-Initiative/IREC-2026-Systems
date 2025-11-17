@@ -12,12 +12,11 @@ rocket = openrocket(filePath);
 simName = "15mph-Midland";
 sim = rocket.sims(simName);
 opts = sim.getOptions();
-windBounds = [1.5 6.0]; % [min max] [m/s]
+windBounds = [1.5 9.0]; % [min max] [m/s]
 windRange = windBounds(2)-windBounds(1);
 tempSpread = 10; % [K]
 pressSpread = 2*10^3; % [Pa]
-%pressRange = pressOffset(2) - pressOffset(1);
-% Reduction is currently 183 m for N3800
+% Reduction is currently 183 m for M3464
 appReduction = 183;
 % Use air data
 airDataFilePath = "C:\IREC-2026-Systems\atmosphereData\postFlightAtmos.mat";
@@ -33,7 +32,7 @@ rasDrag = table(rasDrag.mach, rasDrag.pick{"aoa", 0, "field", "CD"}, ...
 rasDrag.MACH(1) = 0;
 
 %% Monte Carlo Loop
-N = 20; % Number of samples
+N = 1000; % Number of samples
 apogeeList = zeros([N,1]);
 pressAppList = zeros([N,1]);
 elapsed = tic;
@@ -41,7 +40,7 @@ for i = 1:N
     disp("Running simulation " + i + " of " + N)
     wind = windBounds(1) + rand()*windRange;
     offsetAirData.TMP = airdata.TMP + (rand()-0.5)*tempSpread;
-    offsetAirData.PRES = airdata.PRES; % + (rand()-0.5)*pressSpread;
+    offsetAirData.PRES = airdata.PRES + (rand()-0.5)*pressSpread;
     
     opts.setWindSpeedAverage(wind);
     rocket.simulate(sim, atmos = offsetAirData(:, ["HGT", "PRES", "TMP"]), drag = rasDrag);
@@ -62,7 +61,7 @@ sigAlt = std(apogeeList);
 sigPressAlt = std(pressAppList);
 sigErr = std(appErr);
 % Conversions factors
-C1 = 3.28; % m/s to mph
+C1 = 2.237; % m/s to mph
 tempF = tempSpread*1.8;
 pressSpread = pressSpread*10^-3;
 %% Output
@@ -78,7 +77,7 @@ fprintf("\nGFS data for Midland on 21 June 2025 used for atmosphere model");
 fprintf("\n2 sigma bounds");
 
 fprintf("\n\nApogee (geometric): %4.1f [m] +/- %3.1f [m]\n", avgAlt, 2*sigAlt);
-fprintf("Apogee (indicated): %4.1f [m] +/- %3.1f [m]\n", avgPressAlt, 2*sigPressAlt);
-fprintf("Apogee error: %2.1f [m] +/- %2.1f [m]\n", avgErr, 2*sigErr);
+% fprintf("Apogee (indicated): %4.1f [m] +/- %3.1f [m]\n", avgPressAlt, 2*sigPressAlt);
+% fprintf("Apogee error: %2.1f [m] +/- %2.1f [m]\n", avgErr, 2*sigErr);
 
 fprintf("\nAirbrake apogee reduction of %3.0f [m] corresponds to %2.1f sigma\n", appReduction, (appReduction/sigAlt));

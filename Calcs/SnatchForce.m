@@ -8,7 +8,7 @@ run_opt = true;
 
 
 
-%When usingg make sure this is your file path and has the correct open
+%When using make sure this is your file path and has the correct open
 %rocket
 
 rocket_path = "C:\IREC-2026-Systems\Rocket Files\RISK.ork";
