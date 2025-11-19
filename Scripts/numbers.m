@@ -10,7 +10,7 @@ alt_var = 127; % meters
 
 %% Setup
 % Retrieve openrocket
-filepath = "C:\IREC-2026-Systems\Rocket Files\RISK.ork";
+filepath = "Rocket Files/RISK.ork";
 risk = openrocket(filepath);
 rocket = risk.rocket();
 % Reference simulation
@@ -24,10 +24,10 @@ R = 0.287; % Specific gas constant for air
 % Valid sites: "spaceport-midland", "spaceport-america", "urrg", "mars"
 site = launchsites("spaceport-midland"); 
 % Launch time
-airDataFilePath = "C:\IREC-2026-Systems\atmosphereData\postFlightAtmos.mat";
+airDataFilePath = "atmosphereData\postFlightAtmos.mat";
 
 % Rasaero drag curve
-dragFilePath = "C:\IREC-2026-Systems\Data\CDplot-RISK.csv";
+dragFilePath = "Data\CDplot-RISK.csv";
 
 %% Get atmosphere
 airdata = importdata(airDataFilePath);
