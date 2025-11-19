@@ -1,5 +1,7 @@
 name: Run Summary script
 on: [push]
+env:
+  MW_ORIG_WORKING_FOLDER: "Scripts"
 jobs:
   my-job:
     name: Run MATLAB Script
