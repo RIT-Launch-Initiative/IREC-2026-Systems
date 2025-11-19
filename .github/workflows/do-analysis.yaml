@@ -11,8 +11,9 @@ jobs:
         uses: matlab-actions/setup-matlab@v2
         with:
           release: R2024a
+          cache: true
       - name: Run script
         uses: matlab-actions/run-command@v2
+        working-directory: Scripts
         with:
           command: simple.m
-          working-directory: Scripts
