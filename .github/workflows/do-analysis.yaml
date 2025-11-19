@@ -14,4 +14,5 @@ jobs:
       - name: Run script
         uses: matlab-actions/run-command@v2
         with:
-          command: Scripts/simple.m
+          command: simple.m
+          working-directory: Scripts
