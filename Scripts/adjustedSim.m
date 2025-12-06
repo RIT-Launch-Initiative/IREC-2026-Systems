@@ -73,9 +73,11 @@ else
     end
 end
 % Stability
-stabData = simData(ascentRange, "Stability percent").("Stability percent");
-stabRod = stabData(2);
+stabData = simData(ascentRange, ["Stability margin", "Stability percent"]);
+stabRod = stabData.("Stability percent")(2);
+stabRodCal = stabData.("Stability margin")(2);
 stabMax = max(simData.("Stability percent"));
+stabMaxCal = max(simData.("Stability margin"));
 % Flutter
 fins = risk.component(class="FinSet");
 flutterFOS = FOS_finflutter(simData, fins);
@@ -100,7 +102,10 @@ plot_openrocket(simData(plotRange, :), "Altitude", "Total velocity", end_ev = "D
 % plotAltitudeError(simData)
 % plotErrorVAltitude(simData)
 plotStabPercent(simData)
+plotStabCombined(simData)
 % plotCPlocation(simData)
+
+close all;
 
 %% Text output
 fprintf("%s\n", strTarget);
@@ -108,8 +113,8 @@ fprintf("\nGeometric Apogee: %4.0f m\nIndicated Apogee: %4.0f m\nMeasurement Err
     + "Apogee Error: %2.1f m\n", mAlt, mAltInd, errAlt, targetErr);
 fprintf("\nMaximum velocity: %4.0f m/s\nMaximum acceleration: %3.0f m/s^2 (%2.1f g)\n" + ...
     "Maximum mach number: %1.2f\n", maxVel, maxAccel, maxG, maxMach);
-fprintf("\nLaunch stability: %2.2f percent\nMaximum stability: %2.2f percent\n",...
-      stabRod, stabMax);
+fprintf("\nLaunch stability: %2.2f percent (%.2f cal)\nMaximum stability: %2.2f percent (%.2f cal)\n",...
+      stabRod, stabRodCal, stabMax, stabMaxCal);
 fprintf("\nFlutter FoS: %1.2f\n", flutterFOS);
 fprintf("\nMax q: %.2f kPa at %.2f seconds\n", (max_q(2)*10^-3), max_q(1))
 
@@ -209,4 +214,24 @@ function plotCPlocation(simData)
     plot(stabData, "Time", "CP location", "Color", "r");
     ylabel("CP location [inches]")
     xlabel("Time [s]")
+end
+function plotStabCombined(simData)
+    % Trim data
+    ascentRange = timerange(eventfilter("LAUNCHROD"), eventfilter("APOGEE"), "openleft");
+    stabData = simData(ascentRange, ["Stability percent", "Stability margin"]);
+    % Plot the data
+    figure(name = "Stability (% and cal)")
+    hold on;
+    % Left side
+    yyaxis("left")
+    plot(stabData, "Time", "Stability percent");
+    ylabel("Stability [%]")
+    % Right side
+    yyaxis("right")
+    plot(stabData, "Time", "Stability margin");
+    ylabel("Stability calibers [cal]")
+    hold off;
+    % Finish plot
+    xlabel("Time [s]")
+    grid on
 end

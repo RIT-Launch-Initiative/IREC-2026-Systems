@@ -92,7 +92,7 @@
         </BodyTube>
         <BodyTube>
             <PartType>BodyTube</PartType>
-            <Length>27.4999</Length>
+            <Length>27.9999</Length>
             <Diameter>6.2</Diameter>
             <LaunchLugDiameter>0</LaunchLugDiameter>
             <LaunchLugLength>0</LaunchLugLength>
@@ -108,8 +108,8 @@
             <Fin>
                 <Count>4</Count>
                 <Chord>12</Chord>
-                <Span>6.125</Span>
-                <SweepDistance>6.5</SweepDistance>
+                <Span>6.25</Span>
+                <SweepDistance>7</SweepDistance>
                 <TipChord>4</TipChord>
                 <Thickness>0.25</Thickness>
                 <LERadius>0</LERadius>
@@ -124,7 +124,7 @@
             <Length>8</Length>
             <Diameter>3.8</Diameter>
             <RearDiameter>3.8</RearDiameter>
-            <Location>111.2498</Location>
+            <Location>111.7498</Location>
             <Color>Blue</Color>
         </BoatTail>
         <Surface>Sheet Metal</Surface>
@@ -143,7 +143,7 @@
         <Pressure>28.9828</Pressure>
         <RodAngle>5</RodAngle>
         <RodLength>163.9997</RodLength>
-        <Temperature>77</Temperature>
+        <Temperature>86</Temperature>
         <WindSpeed>15</WindSpeed>
     </LaunchSite>
     <Recovery>
@@ -154,7 +154,7 @@
         <Event1>True</Event1>
         <Event2>True</Event2>
         <Size1>119.9998</Size1>
-        <Size2>35.9839</Size2>
+        <Size2>35.9999</Size2>
         <EventType1>Altitude</EventType1>
         <EventType2>Apogee</EventType2>
         <CD1>0.97</CD1>
@@ -163,9 +163,9 @@
     <MachAlt></MachAlt>
     <SimulationList>
         <Simulation>
-            <SustainerLaunchWt>63.7384</SustainerLaunchWt>
+            <SustainerLaunchWt>62.784</SustainerLaunchWt>
             <SustainerNozzleDiameter>0</SustainerNozzleDiameter>
-            <SustainerCG>71.1238</SustainerCG>
+            <SustainerCG>71.5052</SustainerCG>
             <SustainerIgnitionDelay>0</SustainerIgnitionDelay>
             <Booster1LaunchWt>0</Booster1LaunchWt>
             <Booster1SeparationDelay>0</Booster1SeparationDelay>

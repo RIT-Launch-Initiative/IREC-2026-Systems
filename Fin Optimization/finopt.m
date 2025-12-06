@@ -107,23 +107,23 @@ function func = costfunc_setup(rocket, sim, fins, f, t)
     
     % setup
     sim.getOptions().setWindTurbulenceIntensity(0);
-    fins = rocket.component(class = "FinSet");  
-    D = 6.2;
-    L = 126;
-    L = 0.0254*L; D = 0.0254*D; % conv to meter
+    fins = rocket.component(class = "FinSet");
+    rkt = rocket.rocket();
+    [D, ~] = rocket.refdims();
+    L = rkt.getLength();
 
     % set targets for mission parameters
-    target_apg = 3318; 
-    target_stbL = 8; 
-    target_stbB = 20; 
-    target_FOS = 1.54; 
+    target_apg = 3423; 
+    target_stbL = 8.25; 
+    target_stbB = 17; 
+    target_FOS = 1.55; 
 
     % define weights for each, modifies how the function behaves and affects the weight of the cost value
-    % [greater number = more lenient above target, greater numer = less lenient below target]
-    weights_apg = [2, 0.5];
-    weights_stbL = [2.4, 0.3];
-    weights_stbB = [0.5, 0.5];
-    weights_FOS = [0.6, 0.5];
+    % [greater number = less lenient above target, greater numer = less lenient below target]
+    weights_apg = [0.05, 0.05];
+    weights_stbL = [1.0, 0.3];
+    weights_stbB = [0.01, 0.01];
+    weights_FOS = [0.01, 0.5];
     
     func = @cost;
 

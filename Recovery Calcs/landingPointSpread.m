@@ -3,9 +3,9 @@
 clear; close all; clc;
 
 %% INPUTS
-N = 5; % Number of sims to run
+N = 10; % Number of sims to run
 
-drogue_diameter = 36; % Inches
+drogue_diameter = 30; % Inches
 drogue_CD = 0.97;
 main_diameter = 120; % Inches
 main_CD = 1.757;
@@ -13,13 +13,13 @@ main_CD = 1.757;
 windBounds = [1.5 10]; % m/s
 windHeadingBounds = [0 180]; % Degrees
 rodHeadingBounds = [75 105];
-rodAngleBounds = [4 8]; % Degrees (off vertical)
+rodAngleBounds = [4 6]; % Degrees (off vertical)
 
 airDataFilePath = "C:\IREC-2026-Systems\atmosphereData\postFlightAtmos.mat";
 dragFilePath = "C:\IREC-2026-Systems\Data\CDplot-RISK.csv";
 
 % Convert units
-drogue_diameter = 36*0.0254;
+drogue_diameter = 24*0.0254;
 main_diameter = 120*0.0254;
 windHeadingBounds = windHeadingBounds*(pi/180);
 rodHeadingBounds = rodHeadingBounds*(pi/180);
@@ -55,13 +55,17 @@ drogue.setCD(drogue_CD);
 
 %% Prepare for simulations
 outVec = zeros(N, 2);
+drogueDescentRates = zeros(N, 1);
+mainDescentRates = zeros(N, 1);
 windSize = windBounds(2)-windBounds(1);
 windHeadingSize = windHeadingBounds(2)-windHeadingBounds(1);
 rodHeadingSize = rodHeadingBounds(2)-rodHeadingBounds(1);
 rodAngleSize = rodAngleBounds(2)-rodAngleBounds(1);
 
 opts.setWindTurbulenceIntensity(0.15)
+opts.setTimeStep(0.05); % Go faster pls
 hitFilter = eventfilter("GROUND_HIT");
+drogueRange = timerange(eventfilter("APOGEE"), eventfilter("MAIN"));
 
 %% Monte-Carlo Simulation
 elapsed = tic;
@@ -76,6 +80,8 @@ for i = 1 : N
     simData = risk.simulate(sim, outputs = "ALL", atmos = airdata(:, ["HGT", "PRES", "TMP"]),...
     drag = rasDrag);
     % Store relevant data
+    drogueDescentRates(i) = simData(drogueRange, "Vertical velocity").("Vertical velocity")(end);
+    mainDescentRates(i) = simData(:, "Vertical velocity").("Vertical velocity")(end);
     simData = simData(hitFilter, ["Position East of launch", "Position North of launch"]);
     outVec(i, 1) = simData.("Position East of launch");
     outVec(i, 2) = simData.("Position North of launch");
@@ -85,6 +91,8 @@ fprintf("\nRun time:\n %.2f minutes\n", toc(elapsed)/60)
 %% Some Calculations
 aveLandingSpot = [mean(outVec(:,1)) mean(outVec(:,2))];
 [aveDistance, stdDistance] = calcAveLandingPointErr(aveLandingSpot, outVec);
+avgDrogueRate = abs(mean(drogueDescentRates));
+avgMainRate = abs(mean(mainDescentRates));
 
 %% Plot Landing Points
 figure(name = "Landing Points")
@@ -101,9 +109,24 @@ plotCircle(aveLandingSpot, 2*stdDistance, [1, 0.1, 0.1, 0.1]);
 hold off;
 xlabel("Position East of Launch [m]")
 ylabel("Position North of Launch [m]")
-xlim(xLimits)
-ylim(yLimits)
+xlim([-200 1000])
+ylim([-600 600])
+%xlim(xLimits)
+%ylim(yLimits)
 axis equal
+
+close("Landing Points")
+
+%% Text out
+drogue_diameter = drogue_diameter/0.0254;
+main_diameter = main_diameter/0.0254;
+fprintf("\nIterations: %.0f", N)
+fprintf("\nDrogue: %.2f inches, Cd = %.2f, Drogue descent rate = %.2f m/s",...
+    drogue_diameter, drogue_CD, avgDrogueRate)
+fprintf("\nMain: %.2f inches, Cd = %.2f, Main descent rate = %.2f m/s",...
+    main_diameter, main_CD, avgMainRate)
+fprintf("\nPosition East: %.0f [m]\nPosition North: %.0f [m]\nDistance: %.0f [m]\nVariation: %.0f [m]\n",...
+    aveLandingSpot(1), aveLandingSpot(2), aveDistance, stdDistance)
 
 %% Functions
 function [xLimits, yLimits] = makeBounds(outVec, pad)
