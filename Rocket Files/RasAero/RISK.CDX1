@@ -109,8 +109,8 @@
                 <Count>4</Count>
                 <Chord>12</Chord>
                 <Span>6.25</Span>
-                <SweepDistance>7</SweepDistance>
-                <TipChord>4</TipChord>
+                <SweepDistance>4</SweepDistance>
+                <TipChord>5.5</TipChord>
                 <Thickness>0.2</Thickness>
                 <LERadius>0</LERadius>
                 <Location>12</Location>
@@ -163,9 +163,9 @@
     <MachAlt></MachAlt>
     <SimulationList>
         <Simulation>
-            <SustainerLaunchWt>68.7747</SustainerLaunchWt>
+            <SustainerLaunchWt>64.3416</SustainerLaunchWt>
             <SustainerNozzleDiameter>0</SustainerNozzleDiameter>
-            <SustainerCG>71.0117</SustainerCG>
+            <SustainerCG>71.1998</SustainerCG>
             <SustainerIgnitionDelay>0</SustainerIgnitionDelay>
             <Booster1LaunchWt>0</Booster1LaunchWt>
             <Booster1SeparationDelay>0</Booster1SeparationDelay>
