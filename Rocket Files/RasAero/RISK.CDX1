@@ -111,7 +111,7 @@
                 <Span>6.25</Span>
                 <SweepDistance>7</SweepDistance>
                 <TipChord>4</TipChord>
-                <Thickness>0.25</Thickness>
+                <Thickness>0.2</Thickness>
                 <LERadius>0</LERadius>
                 <Location>12</Location>
                 <AirfoilSection>Rounded</AirfoilSection>
@@ -144,7 +144,7 @@
         <RodAngle>5</RodAngle>
         <RodLength>163.9997</RodLength>
         <Temperature>86</Temperature>
-        <WindSpeed>15</WindSpeed>
+        <WindSpeed>0</WindSpeed>
     </LaunchSite>
     <Recovery>
         <Altitude1>1476.378</Altitude1>
@@ -163,9 +163,9 @@
     <MachAlt></MachAlt>
     <SimulationList>
         <Simulation>
-            <SustainerLaunchWt>62.784</SustainerLaunchWt>
+            <SustainerLaunchWt>68.7747</SustainerLaunchWt>
             <SustainerNozzleDiameter>0</SustainerNozzleDiameter>
-            <SustainerCG>71.5052</SustainerCG>
+            <SustainerCG>71.0117</SustainerCG>
             <SustainerIgnitionDelay>0</SustainerIgnitionDelay>
             <Booster1LaunchWt>0</Booster1LaunchWt>
             <Booster1SeparationDelay>0</Booster1SeparationDelay>
