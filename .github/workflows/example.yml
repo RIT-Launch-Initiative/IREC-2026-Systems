@@ -13,7 +13,10 @@ jobs:
       - name: Set variables
         run: |
           REPORT=$(cat '${{ env.GITHUB_WORKSPACE }}Design Reporting/Report.txt')
+          echo "MULTI_LINES_TEXT_ENV_VAR<<EOF" >> $GITHUB_ENV
           echo "REPORT $REPORT" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
       - name: Greet the reader
         uses: slackapi/slack-github-action@v2.1.1
         with:
