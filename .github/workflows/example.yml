@@ -19,7 +19,8 @@ jobs:
           echo "EOF" >> $GITHUB_ENV
           echo "DATETIME=$DATETIME" >> $GITHUB_ENV
 
-      - name: send_report
+      - name: Send Report
+        id: send_report
         uses: slackapi/slack-github-action@v2.1.1
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -31,3 +32,4 @@ jobs:
       - name: Print Details
         run:
           cat ${{steps.send_report.outputs}}
+          cat ${{steps.send_report.ok}}
