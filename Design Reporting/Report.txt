@@ -1,6 +1,6 @@
 1---DESIGN
 Dimensions
-     Length [in] ---------------: 1200
+     Length [in] ---------------: 120
      Diameter [in] -------------: 6.2
      Reference area [m^2] ------: 0.01
 
