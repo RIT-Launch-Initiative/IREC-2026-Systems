@@ -1,11 +1,11 @@
-name: Post an inline text message
+name: Send analysis report to channel
 on:
   push:
     branches:
       - main
 jobs:
   run:
-    name: Leave a kind message after updates
+    name: Send report
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -17,7 +17,7 @@ jobs:
           echo "$REPORT" >> $GITHUB_ENV
           DATETIME=$(date)
           echo "EOF" >> $GITHUB_ENV
-          echo "DATETIME '$DATETIME'" >> $GITHUB_ENV
+          echo "DATETIME=$DATETIME" >> $GITHUB_ENV
 
       - name: Send the report
         uses: slackapi/slack-github-action@v2.1.1
