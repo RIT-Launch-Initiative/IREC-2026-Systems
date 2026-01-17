@@ -32,7 +32,7 @@ jobs:
       - name: Print Details
         run: |
           echo ${{ toJSON(steps.send_report.outputs) }}
-          echo ${{ toJSON(steps.send_report.ok) }}
+
       - name: Send Reply
         uses: slackapi/slack-github-action@v2.1.1
         with:
