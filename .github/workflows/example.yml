@@ -8,10 +8,14 @@ jobs:
     name: Leave a kind message after updates
     runs-on: ubuntu-latest
     steps:
+      - name: Set variables
+        run: |
+          REPORT=$(cat 'Design Reporting/Report.txt')
+          echo "REPORT $REPORT" >> $GITHUB_ENV
       - name: Greet the reader
         uses: slackapi/slack-github-action@v2.1.1
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: incoming-webhook
           payload: |
-            text: "Greetings! from github"
+            text: "${{ env.REPORT }}"
