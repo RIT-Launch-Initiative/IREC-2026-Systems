@@ -24,6 +24,7 @@ jobs:
           method: chat.postMessage
           token: ${{ secrets.SLACKBOT_TOKEN }}
           payload: |
+            icon_url: "https://github.com/RIT-Launch-Initiative/IREC-2026-Systems/blob/main/Icons/CornHappy.png?raw=true"
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
             text: "*${{ env.DATETIME }}*"
 
