@@ -33,3 +33,11 @@ jobs:
         run: |
           echo ${{ toJSON(steps.send_report.outputs) }}
           echo ${{ toJSON(steps.send_report.ok) }}
+      - name: Send Reply
+        uses: slackapi/slack-github-action@v2.1.1
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+             text: "reply to message"
+             thread_ts: ${{steps.send_report.outputs.time}}
