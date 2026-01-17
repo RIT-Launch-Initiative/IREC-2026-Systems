@@ -31,5 +31,5 @@ jobs:
 
       - name: Print Details
         run: |
-          echo ${{steps.send_report.outputs}}
-          echo ${{steps.send_report.ok}}
+          echo ${ toJSON({steps.send_report.outputs) }}
+          echo ${ {toJSON(steps.send_report.ok) }}
