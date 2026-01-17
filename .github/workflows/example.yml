@@ -34,11 +34,13 @@ jobs:
         run: |
           echo ${{ toJSON(steps.send_report.outputs) }}
 
-      - name: Send Reply
+      - name: Post text to a Slack channel
         uses: slackapi/slack-github-action@v2.1.1
         with:
-          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
-          webhook-type: incoming-webhook
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload: |
-             text: "reply to message"
-             thread_ts: ${{steps.send_report.outputs.time}}
+            channel: ${{ secrets.SLACK_CHANNEL_ID }}
+            thread_ts: ${{ steps.send_report.outputs.time}}
+            text: "howdy <!channel>!"
+             
