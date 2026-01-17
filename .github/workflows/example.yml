@@ -13,13 +13,11 @@ jobs:
       - name: Set variables
         run: |
           REPORT=$(cat '${{ env.GITHUB_WORKSPACE }}Design Reporting/Report.txt' | sed ':a;N;$!ba;s/\n/\\n/g' )
-          echo "REPORT<<EOF" >> $GITHUB_ENV
-          echo "$REPORT" >> $GITHUB_ENV
           DATETIME=$(TZ='America/New_York' date)
-          echo "EOF" >> $GITHUB_ENV
+          echo "REPORT=$REPORT" >> $GITHUB_ENV
           echo "DATETIME=$DATETIME" >> $GITHUB_ENV
 
-      - name: Post first message to Slack channel
+      - name: Post first message with report date
         id: send_report
         uses: slackapi/slack-github-action@v2.1.1
         with:
@@ -29,12 +27,7 @@ jobs:
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
             text: "*${{ env.DATETIME }}*"
 
-      - name: Print Details
-        continue-on-error: true
-        run: |
-          echo ${{ toJSON(steps.send_report.outputs) }}
-
-      - name: Post full repott to a Slack channel
+      - name: Post full report to thread
         id: send_full_report
         uses: slackapi/slack-github-action@v2.1.1
         with:
@@ -44,9 +37,4 @@ jobs:
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
             thread_ts: ${{ steps.send_report.outputs.ts}}
             text: "```${{ env.REPORT }}```"
-
-      - name: Print Details2
-        continue-on-error: true
-        run: |
-          echo ${{ toJSON(steps.send_full_report.outputs) }}
 
