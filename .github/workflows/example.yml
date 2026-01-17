@@ -23,4 +23,4 @@ jobs:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: incoming-webhook
           payload: |
-            text: "${{ env.REPORT }}"
+            text: "```${{ env.REPORT }}```"
