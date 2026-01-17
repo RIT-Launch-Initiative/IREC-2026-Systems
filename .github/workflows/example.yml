@@ -15,6 +15,8 @@ jobs:
           REPORT=$(cat '${{ env.GITHUB_WORKSPACE }}Design Reporting/Report.txt' | sed ':a;N;$!ba;s/\n/\\n/g' )
           echo "REPORT<<EOF" >> $GITHUB_ENV
           echo "$REPORT" >> $GITHUB_ENV
+          DATETIME=$(date)
+          echo "DATETIME $DATETIME" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
       - name: Send the report
@@ -23,5 +25,5 @@ jobs:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: incoming-webhook
           payload: |
-            text: "```${{ env.REPORT }}```"
+            text: "# ${{ env.DATETIME }} ```${{ env.REPORT }}```"
 
