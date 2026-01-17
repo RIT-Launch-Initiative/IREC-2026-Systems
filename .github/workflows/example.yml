@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v6
       - name: Set variables
         run: |
-          REPORT=$(cat '${{ env.GITHUB_WORKSPACE }}Design Reporting/Report.txt' | awk  '{gsub("\\\\n","\n")};1')
+          REPORT=$(cat '${{ env.GITHUB_WORKSPACE }}Design Reporting/Report.txt' | sed ':a;N;$!ba;s/\n/\\n/g' )
           echo "REPORT<<EOF" >> $GITHUB_ENV
           echo "$REPORT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
@@ -24,3 +24,4 @@ jobs:
           webhook-type: incoming-webhook
           payload: |
             text: "```${{ env.REPORT }}```"
+
