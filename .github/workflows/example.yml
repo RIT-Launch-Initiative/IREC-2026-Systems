@@ -39,6 +39,3 @@ jobs:
             thread_ts: ${{ steps.send_report.outputs.ts}}
             text: "```${{ env.REPORT }}```"
 
-      - name: Print info
-        run: |
-          echo "${{ toJSON(steps.send_full_report.outputs) }}"
