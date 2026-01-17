@@ -25,5 +25,5 @@ jobs:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: incoming-webhook
           payload: |
-            text: "# ${{ env.DATETIME }} ```${{ env.REPORT }}```"
+            text: "*${{ env.DATETIME }}*\n ```${{ env.REPORT }}```"
 
