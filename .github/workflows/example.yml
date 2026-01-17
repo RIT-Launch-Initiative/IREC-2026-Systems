@@ -34,7 +34,7 @@ jobs:
         run: |
           echo ${{ toJSON(steps.send_report.outputs) }}
 
-      - name: Post text to a Slack channel
+      - name: Post full repott to a Slack channel
         uses: slackapi/slack-github-action@v2.1.1
         with:
           method: chat.postMessage
