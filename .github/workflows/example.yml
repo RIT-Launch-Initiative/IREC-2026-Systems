@@ -35,6 +35,7 @@ jobs:
           echo ${{ toJSON(steps.send_report.outputs) }}
 
       - name: Post full repott to a Slack channel
+        id: send_full_report
         uses: slackapi/slack-github-action@v2.1.1
         with:
           method: chat.postMessage
@@ -44,3 +45,8 @@ jobs:
             thread_ts: ${{ steps.send_report.outputs.time}}
             text: "howdy and hellop <!channel>!"
 
+      - name: Print Details2
+        continue-on-error: true
+        run: |
+          echo ${{ toJSON(steps.send_full_report.outputs) }}
+          
