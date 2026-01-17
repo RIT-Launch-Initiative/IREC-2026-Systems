@@ -16,8 +16,8 @@ jobs:
           echo "REPORT<<EOF" >> $GITHUB_ENV
           echo "$REPORT" >> $GITHUB_ENV
           DATETIME=$(date)
-          echo "DATETIME $DATETIME" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
+          echo "DATETIME $DATETIME" >> $GITHUB_ENV
 
       - name: Send the report
         uses: slackapi/slack-github-action@v2.1.1
