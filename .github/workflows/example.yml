@@ -15,7 +15,7 @@ jobs:
           REPORT=$(cat '${{ env.GITHUB_WORKSPACE }}Design Reporting/Report.txt' | sed ':a;N;$!ba;s/\n/\\n/g' )
           echo "REPORT<<EOF" >> $GITHUB_ENV
           echo "$REPORT" >> $GITHUB_ENV
-          DATETIME=$(date)
+          DATETIME=$(TZ='America/New_York' date)
           echo "EOF" >> $GITHUB_ENV
           echo "DATETIME=$DATETIME" >> $GITHUB_ENV
 
