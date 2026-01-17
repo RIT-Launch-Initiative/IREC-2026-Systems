@@ -27,7 +27,7 @@ jobs:
           token: ${{ secrets.SLACKBOT_TOKEN }}
           payload: |
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
-            text: "**${{ env.DATETIME }}**"
+            text: "*${{ env.DATETIME }}*"
 
       - name: Print Details
         continue-on-error: true
@@ -43,10 +43,10 @@ jobs:
           payload: |
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
             thread_ts: ${{ steps.send_report.outputs.ts}}
-            text: "howdy and hellop <!channel>!"
+            text: "```${{ env.REPORT }}```"
 
       - name: Print Details2
         continue-on-error: true
         run: |
           echo ${{ toJSON(steps.send_full_report.outputs) }}
-          
+
