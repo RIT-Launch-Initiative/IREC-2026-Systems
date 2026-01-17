@@ -19,15 +19,14 @@ jobs:
           echo "EOF" >> $GITHUB_ENV
           echo "DATETIME=$DATETIME" >> $GITHUB_ENV
 
-      - name: Send Report
-        id: send_report
+      - name: Post first message to Slack channel
         uses: slackapi/slack-github-action@v2.1.1
         with:
-          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
-          webhook-type: incoming-webhook
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload: |
-            text: "*${{ env.DATETIME }}*"
-
+            channel: ${{ secrets.SLACK_CHANNEL_ID }}
+            text: "**${{ env.DATETIME }}**"
 
       - name: Print Details
         continue-on-error: true
@@ -43,4 +42,4 @@ jobs:
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
             thread_ts: ${{ steps.send_report.outputs.time}}
             text: "howdy <!channel>!"
-             
+
