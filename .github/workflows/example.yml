@@ -30,6 +30,7 @@ jobs:
 
 
       - name: Print Details
+        continue-on-error: true
         run: |
           echo ${{ toJSON(steps.send_report.outputs) }}
 
