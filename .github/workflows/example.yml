@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v6
       - name: Set variables
         run: |
-          EMOJI=$(cat ${{ env.GITHUB_WORKSPACE/Design Reporting/Report.txt}})
+          EMOJI=$(cat '${{ env.GITHUB_WORKSPACE }}/Design Reporting/Report.txt}}')
           REPORT=$(cat '${{ env.GITHUB_WORKSPACE }}Design Reporting/Report.txt' | sed ':a;N;$!ba;s/\n/\\n/g' )
           DATETIME=$(TZ='America/New_York' date)
           echo "EMOJI=$EMOJI" >> $GITHUB_ENV
