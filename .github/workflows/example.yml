@@ -20,6 +20,7 @@ jobs:
           echo "DATETIME=$DATETIME" >> $GITHUB_ENV
 
       - name: Post first message to Slack channel
+        id: send_report
         uses: slackapi/slack-github-action@v2.1.1
         with:
           method: chat.postMessage
