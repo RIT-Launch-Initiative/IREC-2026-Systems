@@ -42,7 +42,7 @@ jobs:
           token: ${{ secrets.SLACKBOT_TOKEN }}
           payload: |
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
-            thread_ts: ${{ steps.send_report.outputs.time}}
+            thread_ts: ${{ steps.send_report.outputs.ts}}
             text: "howdy and hellop <!channel>!"
 
       - name: Print Details2
