@@ -30,6 +30,6 @@ jobs:
 
 
       - name: Print Details
-        run:
-          cat ${{steps.send_report.outputs}}
-          cat ${{steps.send_report.ok}}
+        run: |
+          echo ${{steps.send_report.outputs}}
+          echo ${{steps.send_report.ok}}
