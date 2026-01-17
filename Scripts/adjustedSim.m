@@ -2,8 +2,6 @@
 % IREC Systems 2026
 % This script runs openrocket simulations with adjustments for atmospheric
 % profile, drag curve, and with extra outputs
-% TO-DO
-% Plot flight trajectory
 clear; close all; clc;
 %% Inputs
 alt_target = 3423; % meters
@@ -44,7 +42,7 @@ rasDrag.MACH(1) = 0;
 
 %% Simulate!!
 simData = risk.simulate(sim, outputs = "ALL", atmos = airdata(:, ["HGT", "PRES", "TMP"]),...
-    wind = airdata, drag = rasDrag);
+    drag = rasDrag);
 % Add density and dynamic pressure to table
 simData.("Air density") = simData.("Air pressure")./(1000*R*simData.("Air temperature"));
 simData.("Dynamic pressure") = 0.5*simData.("Air density").*simData.("Total velocity").^2;
@@ -96,16 +94,18 @@ maxAccel = max(accelData.("Total acceleration"));
 maxG = maxAccel/9.81;
 
 
-%% Plot outputs :)
-plotRange = timerange(eventfilter("LAUNCH"), eventfilter("DROGUE"));
-plot_openrocket(simData(plotRange, :), "Altitude", "Total velocity", end_ev = "DROGUE", labels = ["LAUNCHROD", "BURNOUT", "APOGEE"]);
+%% Plot outputs :) :)
+% plotRange = timerange(eventfilter("LAUNCH"), eventfilter("DROGUE"));
+% plot_openrocket(simData(plotRange, :), "Altitude", "Total velocity", end_ev = "DROGUE", labels = ["LAUNCHROD", "BURNOUT", "APOGEE"]);
 % plotAltitudeError(simData)
 % plotErrorVAltitude(simData)
-plotStabPercent(simData)
+% plotStabPercent(simData)
 plotStabCombined(simData)
 % plotCPlocation(simData)
+plotAltVelAccel(simData)
+plotDynamicResponse(simData)
 
-close all;
+%% Update Report
 
 %% Text output
 fprintf("%s\n", strTarget);
@@ -234,4 +234,34 @@ function plotStabCombined(simData)
     % Finish plot
     xlabel("Time [s]")
     grid on
+    title("Stability (No Wind)")
+end
+function plotAltVelAccel(simData)
+    data = simData(:, ["Altitude", "Total velocity", "Total acceleration"]);
+    figure(name = "Total Motion")
+    xlabel("Time [s]")
+    yyaxis("left")
+    plot(data, "Time", "Altitude", "LineWidth", 1)
+    ylabel("Altitude [m]")
+    yyaxis("right")
+    hold on
+    plot(data, "Time", "Total velocity", "LineWidth", 1)
+    plot(data, "Time", "Total acceleration", "Color", "#52C400", "LineStyle", "-", "LineWidth", 1)
+    hold off
+    grid on
+    ylabel("Velocity [m/s], Acceleration [m/s^2]")
+    legend("Altitude", "Velocity", "Acceleration")
+end
+function plotDynamicResponse(simData)
+    ascentRange = timerange(eventfilter("LAUNCHROD"), eventfilter("APOGEE"), "openleft");
+    AoAData = simData(ascentRange, "Angle of attack");
+    AoAData.("Angle of attack") = (180/pi)*AoAData.("Angle of attack");
+    % Plot the data
+    figure(name = "AoA")
+    hold on;
+    plot(AoAData, "Time", "Angle of attack");
+    ylabel("Angle of Attack [degrees]")
+    ylim([0 2])
+    hold off;
+    % Finish plot
 end

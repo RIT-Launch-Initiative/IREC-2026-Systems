@@ -1,0 +1,59 @@
+1---DESIGN
+Dimensions
+     Length [in] ---------------: 120
+     Diameter [in] -------------: 6.2
+     Reference area [m^2] ------: 0.01
+
+Rocket Mass [kg]
+     Fully loaded --------------: 4
+     No motor ------------------: 4
+     Burnout -------------------: 4
+
+System Mass [kg]
+     Avionics ------------------: 4.444
+     Payload -------------------: 4.444
+     Airbrakes -----------------: 4.444
+
+Fins
+     Root chord [in] -----------: 12
+     Tip chord [in] ------------: 4
+     Height [in] ---------------: 6
+     Sweep length [in] ---------: 4
+     Sweep angle [deg] ---------: 30
+     Thickness [in] ------------: 0.2
+
+Recovery
+     Main
+          Diameter [in] --------: 60
+          Area [m^2] -----------: 1
+          Cd -------------------: 2.2
+     Drogue
+          Diameter [in] --------: 24
+          Area [m^2] -----------: 0.1
+          Cd -------------------: 2.2
+
+2---PERFORMANCE
+Apogee
+     Geometric apogee [m, ft] --: 3048, 10000
+     Indicated apogee [m, ft] --: 3048, 10000
+     Target [m, ft] ------------: 3048, 10000
+     Apogee error [m, ft] ------: 0, 0
+
+Motion
+     Maximum speed [m/s] -------: 300
+     Rod exit speed [m/s] ------: 30
+     Max. accel. [m/s^2, g] ----: 150, 15
+
+Stability
+     Rod exit [%, cal] ---------: 10%, 1
+     Burnout [%, cal] ----------: 10%, 1
+     AoA Setting Time [s] ------: 1
+
+Flutter
+     Flutter speed [m/s] -------: 600
+     Flutter margin ------------: 1.5
+
+Other
+     Max q [kPa] ---------------: 40
+     Speed at max q [m/s] ------: 250
+     Elapsed time at max q [s] -: 4
