@@ -42,5 +42,5 @@ jobs:
           payload: |
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
             thread_ts: ${{ steps.send_report.outputs.time}}
-            text: "howdy <!channel>!"
+            text: "howdy and hellop <!channel>!"
 
