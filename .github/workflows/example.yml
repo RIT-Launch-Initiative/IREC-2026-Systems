@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Set variables
         run: |
-          REPORT=$(cat 'Design Reporting/Report.txt')
+          REPORT=$(cat '${GITHUB_WORKSPACE}/Design Reporting/Report.txt')
           echo "REPORT $REPORT" >> $GITHUB_ENV
       - name: Greet the reader
         uses: slackapi/slack-github-action@v2.1.1
