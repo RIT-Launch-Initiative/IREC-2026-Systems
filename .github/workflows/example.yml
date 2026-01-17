@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v6
-     - name: Set variables
+      - name: Set variables
         run: |
           REPORT=$(cat '${{ env.GITHUB_WORKSPACE }}/Design Reporting/Report.txt')
           echo "REPORT $REPORT" >> $GITHUB_ENV
