@@ -4,7 +4,11 @@
 % profile, drag curve, and with extra outputs
 clear; close all; clc;
 %% Inputs
-% No manual inputs
+% DO NOT LEAVE OVERRIDES ACTIVE
+overrideAbMass = [0 0]; % [logical, value(kg)]
+overrideAviMass = [0 2.310];
+overridePayloadMass = [0 0];
+
 %% Auto inputs
 load("C://IREC-2026-Systems/Design Reporting/reportData1.mat");
 load("C://IREC-2026-Systems/Design Reporting/reportData2.mat");
@@ -44,6 +48,20 @@ rasDrag = table(rasDrag.mach, rasDrag.pick{"aoa", 0, "field", "CD"}, ...
     VariableNames = ["MACH", "DRAG"]);
 rasDrag.MACH(1) = 0;
 
+%% Subsystem mass override
+airbrake = risk.component(name="Airbrake");
+avionics = risk.component(name="Avionics");
+payload = risk.component(name="Payload");
+if overrideAbMass(1)
+    airbrake.setComponentMass(overrideAbMass(2))
+end
+if overrideAviMass(1)
+    avionics.setComponentMass(overrideAviMass(2))
+end
+if overridePayloadMass(1)
+    payload.setComponentMass(overridePayloadMass(2))
+end
+
 %% Simulate!!
 simData = risk.simulate(sim, outputs = "ALL", atmos = airdata(:, ["HGT", "PRES", "TMP"]),...
     drag = rasDrag);
@@ -80,7 +98,6 @@ stabRod = stabData.("Stability percent")(2);
 stabRodCal = stabData.("Stability margin")(2);
 stabMax = max(simData.("Stability percent"));
 stabMaxCal = max(simData.("Stability margin"));
-settlingTime = settlingTimeCalc(simData);
 % Flutter
 fins = risk.component(class="FinSet");
 flutterFOS = FOS_finflutter(simData, fins);
@@ -107,10 +124,9 @@ maxG = maxAccel/9.81;
 % plotAltitudeError(simData)
 % plotErrorVAltitude(simData)
 % plotStabPercent(simData)
-plotStabCombined(simData)
+%plotStabCombined(simData)
 % plotCPlocation(simData)
-plotAltVelAccel(simData)
-plotDynamicResponse(simData)
+%plotAltVelAccel(simData)
 
 %% Update Report
 reportData1.status = strTarget;
@@ -127,7 +143,6 @@ reportData2.maxAccel = maxAccel;
 reportData2.flightTime = seconds(times(end));
 reportData2.rodStab = stabRod;
 reportData2.maxStab = stabMax;
-reportData2.settlingTime = settlingTime;
 reportData2.flutterSpeed = flutterFOS*maxVel;
 reportData2.flutterMargin = flutterFOS;
 reportData2.q = max_q(2);
@@ -319,20 +334,4 @@ function plotAltVelAccel(simData)
     grid on
     ylabel("Velocity [m/s], Acceleration [m/s^2]")
     legend("Altitude", "Velocity", "Acceleration")
-end
-function plotDynamicResponse(simData)
-    ascentRange = timerange(eventfilter("LAUNCHROD"), eventfilter("APOGEE"), "openleft");
-    AoAData = simData(ascentRange, "Angle of attack");
-    AoAData.("Angle of attack") = (180/pi)*AoAData.("Angle of attack");
-    % Plot the data
-    figure(name = "AoA")
-    hold on;
-    plot(AoAData, "Time", "Angle of attack");
-    ylabel("Angle of Attack [degrees]")
-    ylim([0 2])
-    hold off;
-    % Finish plot
-end
-function out = settlingTimeCalc(simData)
-    out = "N/A";
 end

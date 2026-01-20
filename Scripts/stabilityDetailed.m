@@ -4,29 +4,24 @@
 % stability of the vehicle
 clear; close all; clc;
 %% Inputs
-alt_target = 3423; % meters
-alt_var = 127; % meters
-
+settlingTimeWinds = linspace(0, 10, 20);
+%% Auto inputs
+load("C://IREC-2026-Systems/Design Reporting/reportData1.mat");
+load("C://IREC-2026-Systems/Design Reporting/reportData2.mat");
+load("C://IREC-2026-Systems/Design Reporting/reportData3.mat");
 %% Setup
 % Retrieve openrocket
 filepath = "C:\IREC-2026-Systems\Rocket Files\RISK.ork";
 risk = openrocket(filepath);
 rocket = risk.rocket();
-% Reference simulation
-sim = risk.sims("15mph-Midland");
 % rocket parameters
 L = rocket.getLength();
 [D, ~] = risk.refdims();
-% Other parameters
-R = 0.287; % Specific gas constant for air
-
-% Valid sites: "spaceport-midland", "spaceport-america", "urrg", "mars"
-site = launchsites("spaceport-midland"); 
-% Launch time
-lTime.date = [2025, 06, 21]; % [year, month, day]
-lTime.time = [10, 21, 00]; % [hour, minute, second]
+% Reference simulation
+sim = risk.sims("15mph-Midland");
+opts = sim.getOptions;
+% air data
 airDataFilePath = "C:\IREC-2026-Systems\atmosphereData\postFlightAtmos.mat";
-
 % Rasaero drag curve
 dragFilePath = "C:\IREC-2026-Systems\Data\CDplot-RISK.csv";
 
@@ -43,13 +38,14 @@ rasDrag.MACH(1) = 0;
 %% Simulate!!
 simData = risk.simulate(sim, outputs = "ALL", atmos = airdata(:, ["HGT", "PRES", "TMP"]),...
     drag = rasDrag);
-% Add density and dynamic pressure to table
-simData.("Air density") = simData.("Air pressure")./(1000*R*simData.("Air temperature"));
 % Add percent stability to table
 simData.("Stability percent") = 100*simData.("Stability margin")*D/L;
 % Times vector
 times = simData.Time;
 ascentRange = timerange(eventfilter("LAUNCHROD"), eventfilter("APOGEE"), "openleft");
+
+%% Settling time
+
 
 %% Generate text output
 stabData = simData(ascentRange, ["Stability margin", "Stability percent"]);
@@ -57,7 +53,6 @@ stabRod = stabData.("Stability percent")(2);
 stabRodCal = stabData.("Stability margin")(2);
 stabMax = max(simData.("Stability percent"));
 stabMaxCal = max(simData.("Stability margin"));
-settle = settlingTime(simData);
 
 %% Plot outputs
 plotStabPercent(simData)
@@ -115,37 +110,4 @@ function plotStabCombined(simData)
     xlabel("Time [s]")
     grid on
     title("Stability (No Wind)")
-end
-
-function out = settlingTime(simData)
-    ascentRange = timerange(seconds(0), seconds(5), "openleft");
-    AoAData = simData(ascentRange, "Angle of attack").("Angle of attack");
-    timeData = simData.Time;
-    len = length(AoAData);
-    maxAoA = 0;
-    for (i = 1:len)
-        maxAoA = max(maxAoA, AoAData(i));
-    end
-    set_AoA = 0.05*maxAoA;
-    index = 0;
-    for (i = 1:len)
-        if AoAData(i) > set_AoA
-            index = 1;
-        end
-    end
-    out = timeData(index);
-end
-
-function plotDynamicResponse(simData)
-    ascentRange = timerange(seconds(0), seconds(5), "openleft");
-    AoAData = simData(ascentRange, "Angle of attack");
-    AoAData.("Angle of attack") = (180/pi)*AoAData.("Angle of attack");
-    % Plot the data
-    figure(name = "AoA")
-    hold on;
-    plot(AoAData, "Time", "Angle of attack");
-    ylabel("Angle of Attack [degrees]")
-    ylim([0 2])
-    hold off;
-    % Finish plot
 end
