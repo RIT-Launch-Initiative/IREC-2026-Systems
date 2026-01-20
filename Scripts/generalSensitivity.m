@@ -1,8 +1,12 @@
 %% Apogee Sensitivity Assessment
 % IREC Systems 2026
 % Last updated 12 January 2026
-%% Setup
 clear; close all; clc;
+%% Inputs
+controlAuthority = 390;
+%% Auto inputs
+load("C://IREC-2026-Systems/Design Reporting/reportData1.mat");
+%% Setup
 % Run a test OR sim
 filePath = "C:\IREC-2026-Systems\Rocket Files\RISK.ork"; 
 if ~isfile(filePath)
@@ -16,8 +20,6 @@ windBounds = [1.5 9.0]; % [min max] [m/s]
 windRange = windBounds(2)-windBounds(1);
 tempSpread = 10; % [K]
 pressSpread = 2*10^3; % [Pa]
-% Reduction is currently 183 m for M3464
-appReduction = 183;
 % Use air data
 airDataFilePath = "C:\IREC-2026-Systems\atmosphereData\postFlightAtmos.mat";
 airdata = importdata(airDataFilePath);
@@ -64,6 +66,13 @@ sigErr = std(appErr);
 C1 = 2.237; % m/s to mph
 tempF = tempSpread*1.8;
 pressSpread = pressSpread*10^-3;
+%% Generate report
+reportData1.uncertainty = 2*sigAlt;
+reportData1.control = controlAuthority;
+save("C://IREC-2026-Systems/Design Reporting/reportData1.mat", "reportData1")
+
+updateReport;
+
 %% Output
 fprintf("\nSimulation used: " + simName);
 fprintf("\n%d Simulations run varying parameters in the listed ranges", N);
@@ -80,4 +89,4 @@ fprintf("\n\nApogee (geometric): %4.1f [m] +/- %3.1f [m]\n", avgAlt, 2*sigAlt);
 % fprintf("Apogee (indicated): %4.1f [m] +/- %3.1f [m]\n", avgPressAlt, 2*sigPressAlt);
 % fprintf("Apogee error: %2.1f [m] +/- %2.1f [m]\n", avgErr, 2*sigErr);
 
-fprintf("\nAirbrake apogee reduction of %3.0f [m] corresponds to %2.1f sigma\n", appReduction, (appReduction/sigAlt));
+fprintf("\nAirbrake apogee reduction of %3.0f [m] corresponds to %2.1f sigma\n", controlAuthority, (controlAuthority/sigAlt));

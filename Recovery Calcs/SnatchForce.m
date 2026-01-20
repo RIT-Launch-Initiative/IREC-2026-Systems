@@ -5,7 +5,7 @@ run_sweep = true;
 run_monte = true;
 run_opt = true;
 
-
+load("C://IREC-2026-Systems/Design Reporting/reportData2.mat");
 
 
 %When using make sure this is your file path and has the correct open
@@ -101,3 +101,16 @@ fprintf('Main descent rate: %.2f m/s\n\n\n', main_descent_rate);
 
 %Display Ground Hit
 fprintf('Ground hit velocity: %.2f m/s \n',ground_hit_velocity)
+
+%% Generate report
+dTime = seconds(data_drogue_2.Time(end)) - seconds(data_drogue_2.Time(1));
+mTime = seconds(data_main_2.Time(end)) - seconds(data_main_2.Time(1));
+reportData2.snatch = max(main_max_drag_force, drogue_max_drag_force);
+reportData2.drogueRate = drogue_descent_rate;
+reportData2.drogueTime = dTime;
+reportData2.mainRate = main_descent_rate;
+reportData2.groundHit = ground_hit_velocity;
+reportData2.mainTime = mTime;
+
+save("C://IREC-2026-Systems/Design Reporting/reportData2.mat", "reportData2")
+updateReport;

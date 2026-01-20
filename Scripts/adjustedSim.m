@@ -4,9 +4,13 @@
 % profile, drag curve, and with extra outputs
 clear; close all; clc;
 %% Inputs
-alt_target = 3423; % meters
-alt_var = 127; % meters
-
+% No manual inputs
+%% Auto inputs
+load("C://IREC-2026-Systems/Design Reporting/reportData1.mat");
+load("C://IREC-2026-Systems/Design Reporting/reportData2.mat");
+load("C://IREC-2026-Systems/Design Reporting/reportData3.mat");
+alt_var = 0.5*reportData1.control-reportData1.uncertainty;
+alt_target = 3048 + reportData1.ind_error + 0.5*reportData1.control;
 %% Setup
 % Retrieve openrocket
 filepath = "C:\IREC-2026-Systems\Rocket Files\RISK.ork";
@@ -62,7 +66,7 @@ mAltInd = max(simData.("Indicated altitude"));
 errAlt = mAlt - mAltInd;
 targetErr = mAlt - alt_target;
 if abs(targetErr) <= alt_var
-    strTarget = "APOGEE TARGET ACHIEVED";
+    strTarget = "ON TARGET";
 else
     if targetErr > 0
         strTarget = "OVERSHOOT";
@@ -76,6 +80,7 @@ stabRod = stabData.("Stability percent")(2);
 stabRodCal = stabData.("Stability margin")(2);
 stabMax = max(simData.("Stability percent"));
 stabMaxCal = max(simData.("Stability margin"));
+settlingTime = settlingTimeCalc(simData);
 % Flutter
 fins = risk.component(class="FinSet");
 flutterFOS = FOS_finflutter(simData, fins);
@@ -85,10 +90,12 @@ max_q = [0 0];
 for i = 1 : length(qData)
     if qData(i) > max_q(2)
         max_q = [seconds(times(i)) qData(i)];
+        max_q_vel = simData.("Total velocity")(i);
     end
 end
 accelData = simData(ascentRange, "Total acceleration");
 maxVel = max(simData.("Total velocity"));
+rodVel = simData(ascentRange, "Total velocity").("Total velocity")(1);
 maxMach = max(simData.("Mach number"));
 maxAccel = max(accelData.("Total acceleration"));
 maxG = maxAccel/9.81;
@@ -106,6 +113,67 @@ plotAltVelAccel(simData)
 plotDynamicResponse(simData)
 
 %% Update Report
+reportData1.status = strTarget;
+reportData1.apogee = mAlt;
+reportData1.apogee_indicated = mAltInd;
+reportData1.target = alt_target;
+reportData1.error = targetErr;
+reportData1.ind_error = errAlt;
+save("C://IREC-2026-Systems/Design Reporting/reportData1.mat", "reportData1")
+
+reportData2.maxSpeed = maxVel;
+reportData2.rodSpeed = rodVel;
+reportData2.maxAccel = maxAccel;
+reportData2.flightTime = seconds(times(end));
+reportData2.rodStab = stabRod;
+reportData2.maxStab = stabMax;
+reportData2.settlingTime = settlingTime;
+reportData2.flutterSpeed = flutterFOS*maxVel;
+reportData2.flutterMargin = flutterFOS;
+reportData2.q = max_q(2);
+reportData2.qVel = max_q_vel;
+reportData2.qTime = max_q(1);
+save("C://IREC-2026-Systems/Design Reporting/reportData2.mat", "reportData2")
+
+% get subsystem masses
+AB = risk.component(name="Airbrake");
+avi = risk.component(name="Avionics");
+payload = risk.component(name="Payload");
+ABMass = AB.getMass;
+avMass = avi.getMass;
+payloadMass = payload.getMass;
+systemsMass = ABMass + avMass + payloadMass;
+
+% get reco dimensions
+mainChute = risk.component(name="Main");
+mainD = mainChute.getDiameter;
+mainA = mainChute.getArea;
+mainCD = mainChute.getCD;
+drogueChute = risk.component(name="Drogue");
+drogueD = drogueChute.getDiameter;
+drogueA = drogueChute.getArea;
+drogueCD = drogueChute.getCD;
+
+% formulate report 3rd section
+reportData3.length = L;
+reportData3.diameter = D;
+reportData3.area = (pi/4)*D^2;
+reportData3.massLoaded = simData.("Mass")(1);
+reportData3.massBurnout = simData.("Mass")(eventfilter("BURNOUT"));
+reportData3.massNoMotor = simData.("Mass")(1) - simData.("Motor mass")(1);
+reportData3.massEmpty = simData.("Mass")(1) - simData.("Motor mass")(1) - systemsMass;
+reportData3.ABMass = ABMass;
+reportData3.avMass = avMass;
+reportData3.payloadMass = payloadMass;
+reportData3.mainDiameter = mainD;
+reportData3.mainArea = mainD;
+reportData3.mainCD = mainCD;
+reportData3.drogueDiameter = drogueD;
+reportData3.drogueArea = drogueA;
+reportData3.drogueCD = drogueCD;
+save("C://IREC-2026-Systems/Design Reporting/reportData3.mat", "reportData3")
+
+updateReport;
 
 %% Text output
 fprintf("%s\n", strTarget);
@@ -264,4 +332,7 @@ function plotDynamicResponse(simData)
     ylim([0 2])
     hold off;
     % Finish plot
+end
+function out = settlingTimeCalc(simData)
+    out = 1;
 end

@@ -10,10 +10,12 @@ run_opt = true;
 rocket_path = "C:\IREC-2026-Systems\Rocket Files\RISK.ork";
 rocket=openrocket(rocket_path);
 
+load("C://IREC-2026-Systems/Design Reporting/reportData3.mat");
+
 %Main Deployment Input Values
 forward_reco_tube=rocket.component(name = "Forward Reco Tube");
 forward_ir=forward_reco_tube.getInnerRadius(); %meters
-bulkhead1=rocket.component(name="Nosecone Bulkhead (Top)");
+bulkhead1=rocket.component(name="Nose Cone Bulkhead");
 bulkhead1_coord=bulkhead1.getPosition();
 bulkhead1_loc=bulkhead1_coord.x; %meters
 
@@ -27,7 +29,7 @@ aft_reco_tube=rocket.component(name = "Aft Reco Tube");
 aft_ir=aft_reco_tube.getInnerRadius(); %meters
 bulkhead3=rocket.component(name="Lower Avi Bulkhead");
 [bulkhead3_loc]=lengthfinder(bulkhead3);
-bulkhead4=rocket.component(name="Bulkhead");
+bulkhead4=rocket.component(name="Aft Reco Bulkhead");
 [bulkhead4_loc]=lengthfinder(bulkhead4);
 aft_length= abs(bulkhead4_loc - bulkhead3_loc);%meters
 
@@ -123,7 +125,15 @@ fprintf("M3 pins required for drogue: %.0f \n\n", m3_pin_d)
 fprintf("6-32 pins required for main: %.0f \n", six_thirtytwo_pin_m)
 fprintf("6-32 pins required for drogue: %.0f \n\n", six_thirtytwo_pin_d)
 
+%% Generate report
+reportData3.mainCharges = [main_grams_bp_primary, main_grams_bp_secondary];
+reportData3.mainPins = four_forty_pin_m;
 
+reportData3.drogueCharges = [drogue_grams_bp_primary, drogue_grams_bp_secondary];
+reportData3.droguePins = four_forty_pin_d;
+
+save("C://IREC-2026-Systems/Design Reporting/reportData3.mat", "reportData3")
+updateReport;
 
 function [length]=lengthfinder(name)
 

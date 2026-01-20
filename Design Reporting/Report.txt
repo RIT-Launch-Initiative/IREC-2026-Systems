@@ -1,1 +1,62 @@
-This report will be filled in sometime soon
+1---APOGEE STATS
+Apogee
+     Status ------------------: ON TARGET
+     Geometric apogee [m, ft] : 3389.1, 11119
+     Target [m, ft] ----------: 3420.5, 11222
+     Apogee error [m, ft] ----: -31.4, -103
+     Indicated apogee [m, ft] : 3211.6, 10537
+     Uncertainty [m, ft] -----: 72.8, 239
+     Control authority [m, ft]: 390.0, 1280
+
+2---PERFORMANCE
+Motion
+     Maximum speed [m/s] -----: 305.3
+     Rod exit speed [m/s] ----: 32.4
+     Max. accel. [m/s^2, g] --: 148.0, 15.1
+     Flight time [s] ---------: 201
+Recovery
+     Drogue descent rate [m/s]: 26.48
+     Drogue time [s] ---------: 109
+     Main descent rate [m/s] -: 5.73
+     Main time [s] -----------: 74
+     Ground hit speed [m/s] --: 5.67
+     Max. snatch force [N] ---: 4880
+Stability
+     Rod exit [%, cal] -------: 11.03, 2.13
+     Burnout [%, cal] --------: 16.54, 3.20
+     AoA Setting Time [s] ----: 1.00
+Flutter
+     Flutter speed [m/s] -----: 465.2
+     Flutter margin ----------: 1.52
+Other
+     Max q [kPa] -------------: 48.11
+     Speed at max q [m/s] ----: 160.8
+     time at max q [s] -------: 1.23
+
+3---DESIGN
+Dimensions
+     Length [in] -------------: 120
+     Diameter [in] -----------: 6.20
+     Reference area [m^2] ----: 0.0195
+Rocket Mass [kg]
+     Fully loaded ------------: 29.18
+     No motor ----------------: 21.59
+     Burnout -----------------: 24.72
+     Empty -------------------: 14.55
+System Masses [kg]
+     Airbrakes ---------------: 1.342
+     Avionics ----------------: 2.600
+     Payload -----------------: 3.095
+Recovery
+     Main
+          Diameter [in] ------: 120
+          Area [m^2] ---------: 3.0480
+          Cd -----------------: 1.76
+          Charges sizes [g] --: 4.54, 6.81
+          4-40 pins ----------: 5.00
+     Drogue
+          Diameter [in] ------: 36
+          Area [m^2] ---------: 0.6567
+          Cd -----------------: 0.97
+          Charges sizes [g] --: 1.55, 2.32
+          4-40 pins ----------: 5.00
