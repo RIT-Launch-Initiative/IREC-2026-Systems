@@ -24,7 +24,7 @@ Recovery
 Stability
      Rod exit [%, cal] -------: 11.03, 2.13
      Burnout [%, cal] --------: 16.54, 3.20
-     AoA Setting Time [s] ----: 1.00
+     AoA Setting Time [s] ----: NaN
 Flutter
      Flutter speed [m/s] -----: 465.2
      Flutter margin ----------: 1.52
@@ -52,11 +52,11 @@ Recovery
           Diameter [in] ------: 120
           Area [m^2] ---------: 3.0480
           Cd -----------------: 1.76
-          Charges sizes [g] --: 4.54, 6.81
-          4-40 pins ----------: 5.00
+          Charge sizes [g] ---: 4.54, 6.81
+          4-40 pins ----------: 5
      Drogue
           Diameter [in] ------: 36
           Area [m^2] ---------: 0.6567
           Cd -----------------: 0.97
-          Charges sizes [g] --: 1.55, 2.32
-          4-40 pins ----------: 5.00
+          Charge sizes [g] ---: 1.55, 2.32
+          4-40 pins ----------: 5

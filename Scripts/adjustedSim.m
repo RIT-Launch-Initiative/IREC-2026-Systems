@@ -334,5 +334,5 @@ function plotDynamicResponse(simData)
     % Finish plot
 end
 function out = settlingTimeCalc(simData)
-    out = 1;
+    out = "N/A";
 end
