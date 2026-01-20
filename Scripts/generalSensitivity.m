@@ -46,7 +46,7 @@ elapsed = tic;
 for i = 1:N
     disp("Running simulation " + i + " of " + N)
     wind = windBounds(1) + rand()*windRange;
-    offsetAirData.TMP = airdata.TMP; + (rand()-0.5)*tempSpread;
+    offsetAirData.TMP = airdata.TMP + (rand()-0.5)*tempSpread;
     offsetAirData.PRES = airdata.PRES + (rand()-0.5)*pressSpread;
     
     varySubsys(rocket, subsysVars);
