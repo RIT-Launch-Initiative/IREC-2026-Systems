@@ -26,8 +26,8 @@ Recovery
      Ground hit speed [m/s] --: 5.67
      Max. snatch force [N] ---: 4880
 Stability
-     Rod exit [%, cal] -------: 11.05%, 2.14
-     Burnout [%, cal] --------: 16.55%, 3.20
+     Rod exit [%, cal] -------: 11.01%, 2.13
+     Burnout [%, cal] --------: 16.50%, 3.19
 Flutter
      Flutter speed [m/s] -----: 465.2
      Flutter margin ----------: 1.53
@@ -46,6 +46,8 @@ Rocket Mass [kg]
      No motor ----------------: 21.64
      Burnout -----------------: 24.77
      Empty -------------------: 14.55
+     Target ------------------: 28.89
+     Error -------------------: 0.35
 System Masses [kg]
      Airbrakes ---------------: 1.342
      Avionics ----------------: 2.654

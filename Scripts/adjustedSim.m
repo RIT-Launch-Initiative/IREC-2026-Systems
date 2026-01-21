@@ -4,6 +4,7 @@
 % profile, drag curve, and with extra outputs
 clear; close all; clc;
 %% Inputs
+targetMass = 28.89; 
 % DO NOT LEAVE OVERRIDES ACTIVE
 overrideAbMass = [0 0]; % [logical, value(kg)]
 overrideAviMass = [0 2.310];
@@ -177,6 +178,8 @@ reportData3.massLoaded = simData.("Mass")(1);
 reportData3.massBurnout = simData.("Mass")(eventfilter("BURNOUT"));
 reportData3.massNoMotor = simData.("Mass")(1) - simData.("Motor mass")(1);
 reportData3.massEmpty = simData.("Mass")(1) - simData.("Motor mass")(1) - systemsMass;
+reportData3.massTarget = targetMass;
+reportData3.massErr = reportData3.massLoaded-targetMass;
 reportData3.ABMass = ABMass;
 reportData3.avMass = avMass;
 reportData3.payloadMass = payloadMass;
