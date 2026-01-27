@@ -107,9 +107,9 @@ function out = subsysRange(rocket)
     out.abMass = rocket.component(name="Airbrake").getMass;
     out.aviMass = rocket.component(name="Avionics").getMass;
     out.payloadMass = rocket.component(name="Payload").getMass;
-    out.abVar = 0.250;
+    out.abVar = 0.100;
     out.aviVar = 0.250;
-    out.payloadVar = 0.250;
+    out.payloadVar = 0.762;
 end
 
 function out = compRange(rocket)
@@ -150,6 +150,12 @@ function out = bodyRange(rocket)
     out.lineDensityVar = 2*0.0036878*c1;
     % tube length variation
     out.lenVar = 0.125/c1;
+
+    out.bt1Var = 0.362;
+    out.bt2Var = 0.28;
+    out.bt3Var = 0.206;
+    out.bt4Var = 0.123;
+    out.bt5Var = 0.237;
 end
 
 function varySubsys(rocket, vars)
@@ -182,19 +188,25 @@ function varyBody(rocket, vars)
     bt5 = rocket.component(name="Booster Tube");
     bt5 = bt5(1);
 
-    % Randomize lengths
-    len1 = vars.bt1Len + 2*(rand()-0.5)*vars.lenVar;
-    len2 = vars.bt2Len + 2*(rand()-0.5)*vars.lenVar;
-    len3 = vars.bt3Len + 2*(rand()-0.5)*vars.lenVar;
-    len4 = vars.bt4Len + 2*(rand()-0.5)*vars.lenVar;
-    len5 = vars.bt5Len + 2*(rand()-0.5)*vars.lenVar;
+    % % Randomize lengths
+    % len1 = vars.bt1Len + 2*(rand()-0.5)*vars.lenVar;
+    % len2 = vars.bt2Len + 2*(rand()-0.5)*vars.lenVar;
+    % len3 = vars.bt3Len + 2*(rand()-0.5)*vars.lenVar;
+    % len4 = vars.bt4Len + 2*(rand()-0.5)*vars.lenVar;
+    % len5 = vars.bt5Len + 2*(rand()-0.5)*vars.lenVar;
+    % 
+    % % Define randomized masses using random lengths and line densities
+    % m1 = len1*(vars.lineDensity + 2*(rand()-0.5)*vars.lineDensityVar);
+    % m2 = len2*(vars.lineDensity + 2*(rand()-0.5)*vars.lineDensityVar);
+    % m3 = len3*(vars.lineDensity + 2*(rand()-0.5)*vars.lineDensityVar);
+    % m4 = len4*(vars.lineDensity + 2*(rand()-0.5)*vars.lineDensityVar);
+    % m5 = len5*(vars.lineDensity + 2*(rand()-0.5)*vars.lineDensityVar);
 
-    % Define randomized masses using random lengths and line densities
-    m1 = len1*(vars.lineDensity + 2*(rand()-0.5)*vars.lineDensityVar);
-    m2 = len2*(vars.lineDensity + 2*(rand()-0.5)*vars.lineDensityVar);
-    m3 = len3*(vars.lineDensity + 2*(rand()-0.5)*vars.lineDensityVar);
-    m4 = len4*(vars.lineDensity + 2*(rand()-0.5)*vars.lineDensityVar);
-    m5 = len5*(vars.lineDensity + 2*(rand()-0.5)*vars.lineDensityVar);
+    m1 = vars.bt1Var;
+    m2 = vars.bt2Var;
+    m3 = vars.bt3Var;
+    m4 = vars.bt4Var;
+    m5 = vars.bt5Var;
 
     bt1.setOverrideMass(m1);
     bt2.setOverrideMass(m2);

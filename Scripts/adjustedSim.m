@@ -7,7 +7,7 @@ clear; close all; clc;
 targetMass = 28.89; 
 % DO NOT LEAVE OVERRIDES ACTIVE
 overrideAbMass = [0 0]; % [logical, value(kg)]
-overrideAviMass = [0 2.310];
+overrideAviMass = [0 1.30];
 overridePayloadMass = [0 0];
 
 %% Auto inputs
