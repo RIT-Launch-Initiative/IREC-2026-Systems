@@ -19,12 +19,12 @@ Motion
      Max. accel. [m/s^2, g] --: 151.1, 15.4
      Flight time [s] ---------: 199
 Recovery
-     Drogue descent rate [m/s]: 26.48
-     Drogue time [s] ---------: 109
-     Main descent rate [m/s] -: 5.73
-     Main time [s] -----------: 74
-     Ground hit speed [m/s] --: 5.67
-     Max. snatch force [N] ---: 4880
+     Drogue descent rate [m/s]: 26.19
+     Drogue time [s] ---------: 112
+     Main descent rate [m/s] -: 6.28
+     Main time [s] -----------: 69
+     Ground hit speed [m/s] --: 6.23
+     Max. snatch force [N] ---: 3822
 Stability
      Rod exit [%, cal] -------: 10.64%, 2.06
      Burnout [%, cal] --------: 16.27%, 3.15
