@@ -30,7 +30,7 @@ simData = OR.simulate(sim, outputs = "ALL");
 massCurve = simData(:, "Mass");
 
 %% Process
-% [motion.vel, motion.accel] = filterData(rrc3Data);
+[motion.time, motion.vel, motion.accel] = filterData(rrc3Data, featherweightData);
 
 %% Drag calculation
 
