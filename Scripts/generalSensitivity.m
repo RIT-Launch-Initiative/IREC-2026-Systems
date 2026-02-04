@@ -39,7 +39,7 @@ compVars = compRange(rocket);
 bodyVars = bodyRange(rocket);
 
 %% Monte Carlo Loop
-N = 15; % Number of samples
+N = 50; % Number of samples
 apogeeList = zeros([N,1]);
 pressAppList = zeros([N,1]);
 elapsed = tic;
@@ -107,9 +107,9 @@ function out = subsysRange(rocket)
     out.abMass = rocket.component(name="Airbrake").getMass;
     out.aviMass = rocket.component(name="Avionics").getMass;
     out.payloadMass = rocket.component(name="Payload").getMass;
-    out.abVar = 0.100;
-    out.aviVar = 0.250;
-    out.payloadVar = 0.762;
+    out.abVar = 0.047;
+    out.aviVar = 0.783;
+    out.payloadVar = 0.638;
 end
 
 function out = compRange(rocket)
@@ -151,7 +151,7 @@ function out = bodyRange(rocket)
     % tube length variation
     out.lenVar = 0.125/c1;
 
-    out.bt1Var = 0.362;
+    out.bt1Var = 0.345;
     out.bt2Var = 0.28;
     out.bt3Var = 0.206;
     out.bt4Var = 0.123;
