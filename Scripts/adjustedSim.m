@@ -7,7 +7,7 @@ clear; close all; clc;
 targetMass = 28.89; 
 % DO NOT LEAVE OVERRIDES ACTIVE
 overrideAbMass = [0 0]; % [logical, value(kg)]
-overrideAviMass = [1 3.005-0.33];
+overrideAviMass = [0 3.005-0.33];
 overridePayloadMass = [0 0];
 
 %% Auto inputs
@@ -18,7 +18,7 @@ alt_var = 0.5*reportData1.control-reportData1.uncertainty;
 alt_target = 3048 + reportData1.ind_error + 0.5*reportData1.control;
 %% Setup
 % Retrieve openrocket
-filepath = "C:\IREC-2026-Systems\Rocket Files\RISK_FDR.ork";
+filepath = "C:\IREC-2026-Systems\Rocket Files\59_ORK_PR2.ork";
 risk = openrocket(filepath);
 rocket = risk.rocket();
 % Reference simulation
@@ -65,7 +65,7 @@ end
 
 %% Simulate!!
 simData = risk.simulate(sim, outputs = "ALL", atmos = airdata(:, ["HGT", "PRES", "TMP"]),...
-    drag = rasDrag);
+    wind = airdata(:, ["HGT", "UGRD", "VGRD"]), drag = rasDrag);
 % Add density and dynamic pressure to table
 simData.("Air density") = simData.("Air pressure")./(1000*R*simData.("Air temperature"));
 simData.("Dynamic pressure") = 0.5*simData.("Air density").*simData.("Total velocity").^2;
@@ -120,14 +120,14 @@ maxG = maxAccel/9.81;
 
 
 %% Plot outputs :) :)
-% plotRange = timerange(eventfilter("LAUNCH"), eventfilter("DROGUE"));
-% plot_openrocket(simData(plotRange, :), "Altitude", "Total velocity", end_ev = "DROGUE", labels = ["LAUNCHROD", "BURNOUT", "APOGEE"]);
+plotRange = timerange(eventfilter("LAUNCH"), eventfilter("DROGUE"));
+plot_openrocket(simData(plotRange, :), "Altitude", "Total velocity", end_ev = "DROGUE", labels = ["LAUNCHROD", "BURNOUT", "APOGEE"]);
 % plotAltitudeError(simData)
 % plotErrorVAltitude(simData)
-% plotStabPercent(simData)
+plotStabPercent(simData)
 %plotStabCombined(simData)
 % plotCPlocation(simData)
-%plotAltVelAccel(simData)
+plotAltVelAccel(simData)
 
 %% Update Report
 reportData1.status = strTarget;

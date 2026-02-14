@@ -3,12 +3,12 @@
 clear; close all; clc;
 
 %% INPUTS
-N = 10; % Number of sims to run
+N = 200; % Number of sims to run
 
 drogue_diameter = 30; % Inches
 drogue_CD = 0.97;
-main_diameter = 120; % Inches
-main_CD = 1.757;
+main_diameter = 96; % Inches
+main_CD = 2.2;
 
 windBounds = [1.5 10]; % m/s
 windHeadingBounds = [0 180]; % Degrees
@@ -101,7 +101,7 @@ pad = 0.2;
 [xLimits, yLimits] = makeBounds(outVec, pad);
 
 % Plot Monte Points
-scatter(outVec(:,1), outVec(:,2), 18, "filled")
+scatter(outVec(:,1), outVec(:,2), 6, "filled")
 hold on;
 % Average landing spot
 scatter(aveLandingSpot(1), aveLandingSpot(2), 36, "filled", "red")
@@ -115,7 +115,7 @@ ylim([-600 600])
 %ylim(yLimits)
 axis equal
 
-close("Landing Points")
+%close("Landing Points")
 
 %% Text out
 drogue_diameter = drogue_diameter/0.0254;

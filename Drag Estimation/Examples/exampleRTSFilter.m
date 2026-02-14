@@ -145,7 +145,9 @@ plot(global_time_r(1:end-1),diff(rrc3_alt_r)./diff(global_time_r),"r--");hold on
 plot(global_time_r(1:end-1),diff(feather_alt_r)./diff(global_time_r),"b--");
 plot(global_time_r,x_bp(2,:),"k");
 % xlim([0 70]);
-legend("RRC3","Feather","Filtered","Location","best");
+legend("RRC3","GPS","Filtered","Location","best");
+xlabel("Time [s]")
+ylabel("Velocity [m/s]")
 title("Velocity");
 
 figure(3);

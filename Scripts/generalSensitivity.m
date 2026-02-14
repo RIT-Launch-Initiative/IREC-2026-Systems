@@ -19,6 +19,10 @@ rocket = openrocket(filePath);
 simName = "15mph-Midland";
 sim = rocket.sims(simName);
 opts = sim.getOptions();
+% Get rocket params
+risk = rocket.rocket();
+L = risk.getLength();
+[D, ~] = rocket.refdims();
 %% Get air data and drag curve
 % Use air data
 airDataFilePath = "C:\IREC-2026-Systems\atmosphereData\postFlightAtmos.mat";
@@ -41,6 +45,7 @@ bodyVars = bodyRange(rocket);
 %% Monte Carlo Loop
 N = 50; % Number of samples
 apogeeList = zeros([N,1]);
+rodStabList = zeros([N,1]);
 pressAppList = zeros([N,1]);
 elapsed = tic;
 for i = 1:N
@@ -55,9 +60,12 @@ for i = 1:N
 
     opts.setWindSpeedAverage(wind);
     rocket.simulate(sim, atmos = offsetAirData(:, ["HGT", "PRES", "TMP"]), drag = rasDrag);
-    altData = openrocket.get_data(sim, [("Altitude"), ("Air pressure")]);
-    apogeeList(i) = max(altData.("Altitude"));
-    pressAppList(i) = pressalt("m", min(altData.("Air pressure")), "Pa")-pressalt("m", altData.("Air pressure")(1), "Pa");
+    data = openrocket.get_data(sim, [("Altitude"), ("Air pressure"), ("Stability margin")]);
+    data.("Stability percent") = 100*data.("Stability margin")*D/L;
+    apogeeList(i) = max(data.("Altitude"));
+    pressAppList(i) = pressalt("m", min(data.("Air pressure")), "Pa")-pressalt("m", data.("Air pressure")(1), "Pa");
+    range = timerange(eventfilter("LAUNCHROD"), eventfilter("BURNOUT"));
+    rodStabList(i) = data(range, :).("Stability percent")(2);
 end
 fprintf("\nRun time:\n %4.2f minutes\n\n", toc(elapsed)/60);
 
@@ -108,8 +116,8 @@ function out = subsysRange(rocket)
     out.aviMass = rocket.component(name="Avionics").getMass;
     out.payloadMass = rocket.component(name="Payload").getMass;
     out.abVar = 0.047;
-    out.aviVar = 0.783;
-    out.payloadVar = 0.638;
+    out.aviVar = 0.592;
+    out.payloadVar = 0.458;
 end
 
 function out = compRange(rocket)
@@ -152,7 +160,7 @@ function out = bodyRange(rocket)
     out.lenVar = 0.125/c1;
 
     out.bt1Var = 0.345;
-    out.bt2Var = 0.28;
+    out.bt2Var = 0.028;
     out.bt3Var = 0.206;
     out.bt4Var = 0.123;
     out.bt5Var = 0.237;
