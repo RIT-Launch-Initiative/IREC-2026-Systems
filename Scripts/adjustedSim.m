@@ -65,7 +65,7 @@ end
 
 %% Simulate!!
 simData = risk.simulate(sim, outputs = "ALL", atmos = airdata(:, ["HGT", "PRES", "TMP"]),...
-    wind = airdata(:, ["HGT", "UGRD", "VGRD"]), drag = rasDrag);
+    drag = rasDrag);
 % Add density and dynamic pressure to table
 simData.("Air density") = simData.("Air pressure")./(1000*R*simData.("Air temperature"));
 simData.("Dynamic pressure") = 0.5*simData.("Air density").*simData.("Total velocity").^2;
