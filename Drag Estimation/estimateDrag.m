@@ -1,4 +1,4 @@
-%% Adjusted simulation tool
+%% Drag estimation tool
 % IREC Systems 2026
 % This script calculates the drag curve of a rocket from flight data
 clear; close all; clc;
