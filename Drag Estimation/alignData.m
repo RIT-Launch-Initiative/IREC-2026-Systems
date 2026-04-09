@@ -1,4 +1,10 @@
 function [FCData,GPSData] = alignData(FCData, GPSData, globalTime)
+    % Clean GPS
+    for i = 1:length(GPSData)-1
+        if(GPSData(i+1,1) == GPSData(i,1))
+            GPSData(i+1,:) = [];
+        end
+    end
     % Interpolate
     rrc3AltAdj = interp1(FCData(:,1), FCData(:,2), globalTime, "linear", "extrap");
     rrc3VelAdj = interp1(FCData(:,1), FCData(:,3), globalTime, "linear", "extrap");

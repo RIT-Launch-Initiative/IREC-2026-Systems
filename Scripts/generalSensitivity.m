@@ -31,16 +31,18 @@ airdata.TMP = airdata.TMP + 273.15; % conv Celcius to Kelvin
 offsetAirData = airdata;
 % RasAero drag curve
 dragFilePath = "C:\IREC-2026-Systems\Data\CDplot-RISK.csv";
-rasDrag = import_rasaero_aerodata(dragFilePath);
-rasDrag = rasDrag.align("mach");
-rasDrag = table(rasDrag.mach, rasDrag.pick{"aoa", 0, "field", "CD"}, ...
+rasDragOrg = import_rasaero_aerodata(dragFilePath);
+rasDragOrg = rasDragOrg.align("mach");
+rasDragOrg = table(rasDragOrg.mach, rasDragOrg.pick{"aoa", 0, "field", "CD"}, ...
     VariableNames = ["MACH", "DRAG"]);
-rasDrag.MACH(1) = 0;
+rasDragOrg.MACH(1) = 0;
+rasDrag = rasDragOrg;
 %% Setup variation ranges
 windRange = windBounds(2)-windBounds(1);
 subsysVars = subsysRange(rocket);
 compVars = compRange(rocket);
 bodyVars = bodyRange(rocket);
+dragVar = 0.05;
 
 %% Monte Carlo Loop
 N = 50; % Number of samples
@@ -57,6 +59,9 @@ for i = 1:N
     varySubsys(rocket, subsysVars);
     varyComp(rocket, compVars);
     varyBody(rocket, bodyVars);
+
+    % Vary drag
+    rasDrag.DRAG = rasDragOrg.DRAG*(1+(rand()-0.5)*dragVar*2);
 
     opts.setWindSpeedAverage(wind);
     rocket.simulate(sim, atmos = offsetAirData(:, ["HGT", "PRES", "TMP"]), drag = rasDrag);
@@ -115,8 +120,8 @@ function out = subsysRange(rocket)
     out.abMass = rocket.component(name="Airbrake").getMass;
     out.aviMass = rocket.component(name="Avionics").getMass;
     out.payloadMass = rocket.component(name="Payload").getMass;
-    out.abVar = 0.047;
-    out.aviVar = 0.592;
+    out.abVar = 0.04659;
+    out.aviVar = 0.1766;
     out.payloadVar = 0.458;
 end
 
@@ -159,11 +164,11 @@ function out = bodyRange(rocket)
     % tube length variation
     out.lenVar = 0.125/c1;
 
-    out.bt1Var = 0.345;
-    out.bt2Var = 0.028;
-    out.bt3Var = 0.206;
-    out.bt4Var = 0.123;
-    out.bt5Var = 0.237;
+    out.bt1Var = 0.24702;
+    out.bt2Var = 0.02746;
+    out.bt3Var = 0.10761;
+    out.bt4Var = 0.12751;
+    out.bt5Var = 0.24157;
 end
 
 function varySubsys(rocket, vars)

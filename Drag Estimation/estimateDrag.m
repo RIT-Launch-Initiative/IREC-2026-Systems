@@ -48,7 +48,7 @@ featherweightTrimmed = trimFeatherweightData(featherweightData);
 [rrc3Data, featherweightData] = alignData(rrc3DataTrimmed, featherweightTrimmed, globalTime);
 
 %% Process
-%[motion.time, motion.vel, motion.accel] = filterData(rrc3Data, featherweightData);
+[motion.time, motion.vel, motion.vel, motion.accel] = filterData(rrc3Data, featherweightData, 0, 0, 0);
 
 %% Drag calculation
 

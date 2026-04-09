@@ -28,7 +28,7 @@
         </BodyTube>
         <BodyTube>
             <PartType>BodyTube</PartType>
-            <Length>30.9999</Length>
+            <Length>28.9999</Length>
             <Diameter>6.2</Diameter>
             <LaunchLugDiameter>0</LaunchLugDiameter>
             <LaunchLugLength>0</LaunchLugLength>
@@ -51,7 +51,7 @@
             <RailGuideDiameter>0</RailGuideDiameter>
             <RailGuideHeight>0</RailGuideHeight>
             <LaunchShoeArea>0</LaunchShoeArea>
-            <Location>53.4999</Location>
+            <Location>51.4999</Location>
             <Color>Blue</Color>
             <BoattailLength>0</BoattailLength>
             <BoattailRearDiameter>0</BoattailRearDiameter>
@@ -67,7 +67,7 @@
             <RailGuideDiameter>0</RailGuideDiameter>
             <RailGuideHeight>0</RailGuideHeight>
             <LaunchShoeArea>0</LaunchShoeArea>
-            <Location>56.7499</Location>
+            <Location>54.7499</Location>
             <Color>Blue</Color>
             <BoattailLength>0</BoattailLength>
             <BoattailRearDiameter>0</BoattailRearDiameter>
@@ -83,7 +83,7 @@
             <RailGuideDiameter>0</RailGuideDiameter>
             <RailGuideHeight>0</RailGuideHeight>
             <LaunchShoeArea>0</LaunchShoeArea>
-            <Location>69.2499</Location>
+            <Location>67.2499</Location>
             <Color>Blue</Color>
             <BoattailLength>0</BoattailLength>
             <BoattailRearDiameter>0</BoattailRearDiameter>
@@ -99,7 +99,7 @@
             <RailGuideDiameter>0.621</RailGuideDiameter>
             <RailGuideHeight>0.6845</RailGuideHeight>
             <LaunchShoeArea>0</LaunchShoeArea>
-            <Location>83.7498</Location>
+            <Location>81.7498</Location>
             <Color>Blue</Color>
             <BoattailLength>0</BoattailLength>
             <BoattailRearDiameter>0</BoattailRearDiameter>
@@ -108,8 +108,8 @@
             <Fin>
                 <Count>4</Count>
                 <Chord>12</Chord>
-                <Span>6.25</Span>
-                <SweepDistance>4</SweepDistance>
+                <Span>6.5</Span>
+                <SweepDistance>4.25</SweepDistance>
                 <TipChord>5.5</TipChord>
                 <Thickness>0.2</Thickness>
                 <LERadius>0</LERadius>
@@ -124,7 +124,7 @@
             <Length>8</Length>
             <Diameter>3.8</Diameter>
             <RearDiameter>3.8</RearDiameter>
-            <Location>111.7498</Location>
+            <Location>109.7498</Location>
             <Color>Blue</Color>
         </BoatTail>
         <Surface>Sheet Metal</Surface>
@@ -141,31 +141,31 @@
     <LaunchSite>
         <Altitude>2870.735</Altitude>
         <Pressure>28.9828</Pressure>
-        <RodAngle>5</RodAngle>
+        <RodAngle>6</RodAngle>
         <RodLength>163.9997</RodLength>
         <Temperature>86</Temperature>
-        <WindSpeed>0</WindSpeed>
+        <WindSpeed>15</WindSpeed>
     </LaunchSite>
     <Recovery>
-        <Altitude1>1476.378</Altitude1>
+        <Altitude1>1499.3439</Altitude1>
         <Altitude2>656.168</Altitude2>
         <DeviceType1>Parachute</DeviceType1>
         <DeviceType2>Parachute</DeviceType2>
         <Event1>True</Event1>
         <Event2>True</Event2>
-        <Size1>119.9998</Size1>
-        <Size2>35.9999</Size2>
+        <Size1>95.9998</Size1>
+        <Size2>26.7399</Size2>
         <EventType1>Altitude</EventType1>
         <EventType2>Apogee</EventType2>
-        <CD1>0.97</CD1>
+        <CD1>2.22</CD1>
         <CD2>0</CD2>
     </Recovery>
     <MachAlt></MachAlt>
     <SimulationList>
         <Simulation>
-            <SustainerLaunchWt>64.3416</SustainerLaunchWt>
+            <SustainerLaunchWt>62.3113</SustainerLaunchWt>
             <SustainerNozzleDiameter>0</SustainerNozzleDiameter>
-            <SustainerCG>71.1998</SustainerCG>
+            <SustainerCG>70.0316</SustainerCG>
             <SustainerIgnitionDelay>0</SustainerIgnitionDelay>
             <Booster1LaunchWt>0</Booster1LaunchWt>
             <Booster1SeparationDelay>0</Booster1SeparationDelay>

@@ -11,7 +11,7 @@ load("C://IREC-2026-Systems/Design Reporting/reportData2.mat");
 %When using make sure this is your file path and has the correct open
 %rocket
 
-rocket_path = "C:\IREC-2026-Systems\Rocket Files\RISK_FDR.ork";
+rocket_path = "C:\IREC-2026-Systems\Rocket Files\RISK.ork";
 rocket=openrocket(rocket_path);
 
 

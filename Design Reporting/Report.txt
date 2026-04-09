@@ -1,40 +1,40 @@
 1---APOGEE STATS
 Apogee
      Status ------------------: ON TARGET
-     Geometric apogee [m, ft] : 3383.7, 11101
+     Geometric apogee [m, ft] : 3398.2, 11149
      Target [m, ft] 
-          Center -------------: 3420.6, 11223
-          Range --------------: 177.5, 582
-          Lower bound --------: 3331.9, 10931
-          Upper bound --------: 3509.4, 11514
-     Apogee error [m, ft, %] -: -36.9, -121, -21%
-     Indicated apogee [m, ft] : 3206.4, 10520
-     Uncertainty [m, ft] -----: 106.2, 349
+          Center -------------: 3420.3, 11221
+          Range --------------: 204.7, 672
+          Lower bound --------: 3317.9, 10886
+          Upper bound --------: 3522.6, 11557
+     Apogee error [m, ft, %] -: -22.1, -72, -11%
+     Indicated apogee [m, ft] : 3220.4, 10566
+     Uncertainty [m, ft] -----: 92.7, 304
      Control authority [m, ft]: 390.0, 1280
 
 2---PERFORMANCE
 Motion
-     Maximum speed [m/s] -----: 315.1
-     Rod exit speed [m/s] ----: 32.8
-     Max. accel. [m/s^2, g] --: 153.2, 15.6
-     Flight time [s] ---------: 199
+     Maximum speed [m/s] -----: 316.8
+     Rod exit speed [m/s] ----: 33.0
+     Max. accel. [m/s^2, g] --: 154.0, 15.7
+     Flight time [s] ---------: 213
 Recovery
-     Drogue descent rate [m/s]: 24.70
-     Drogue time [s] ---------: 87
-     Main descent rate [m/s] -: 6.54
-     Main time [s] -----------: 50
-     Ground hit speed [m/s] --: 6.51
-     Max. snatch force [N] ---: 1875
+     Drogue descent rate [m/s]: 23.12
+     Drogue time [s] ---------: 124
+     Main descent rate [m/s] -: 6.17
+     Main time [s] -----------: 70
+     Ground hit speed [m/s] --: 6.13
+     Max. snatch force [N] ---: 2980
 Stability
-     Rod exit [%, cal] -------: 4.87%, 0.93
-     Burnout [%, cal] --------: 16.67%, 3.17
+     Rod exit [%, cal] -------: 7.48%, 1.42
+     Burnout [%, cal] --------: 18.71%, 3.56
 Flutter
-     Flutter speed [m/s] -----: 457.9
-     Flutter margin ----------: 1.45
+     Flutter speed [m/s] -----: 412.1
+     Flutter margin ----------: 1.30
 Other
-     Max q [kPa] -------------: 51.24
-     Speed at max q [m/s] ----: 168.4
-     time at max q [s] -------: 1.24
+     Max q [kPa] -------------: 51.78
+     Speed at max q [m/s] ----: 167.9
+     time at max q [s] -------: 1.23
 
 3---DESIGN
 Dimensions
@@ -42,16 +42,16 @@ Dimensions
      Diameter [in] -----------: 6.20
      Reference area [m^2] ----: 0.0195
 Rocket Mass [kg]
-     Fully loaded ------------: 28.26
-     No motor ----------------: 20.67
-     Burnout -----------------: 23.80
+     Fully loaded ------------: 28.12
+     No motor ----------------: 20.52
+     Burnout -----------------: 23.65
      Empty -------------------: 14.03
      Target ------------------: 28.89
-     Error -------------------: -0.63
+     Error -------------------: -0.77
 System Masses [kg]
      Airbrakes ---------------: 1.104
-     Avionics ----------------: 2.749
-     Payload -----------------: 2.788
+     Avionics ----------------: 2.600
+     Payload -----------------: 2.789
 Recovery
      Main
           Diameter [in] ------: 96
@@ -60,8 +60,8 @@ Recovery
           Charge sizes [g] ---: 4.54, 6.81
           4-40 pins ----------: 5
      Drogue
-          Diameter [in] ------: 36
-          Area [m^2] ---------: 0.6567
-          Cd -----------------: 0.97
+          Diameter [in] ------: 27
+          Area [m^2] ---------: 0.3623
+          Cd -----------------: 2.22
           Charge sizes [g] ---: 1.55, 2.32
           4-40 pins ----------: 5
