@@ -60,7 +60,7 @@
         </BodyTube>
         <BodyTube>
             <PartType>BodyTube</PartType>
-            <Length>12.5</Length>
+            <Length>11.5</Length>
             <Diameter>6.2</Diameter>
             <LaunchLugDiameter>0</LaunchLugDiameter>
             <LaunchLugLength>0</LaunchLugLength>
@@ -83,7 +83,7 @@
             <RailGuideDiameter>0</RailGuideDiameter>
             <RailGuideHeight>0</RailGuideHeight>
             <LaunchShoeArea>0</LaunchShoeArea>
-            <Location>67.2499</Location>
+            <Location>66.2499</Location>
             <Color>Blue</Color>
             <BoattailLength>0</BoattailLength>
             <BoattailRearDiameter>0</BoattailRearDiameter>
@@ -92,14 +92,14 @@
         </BodyTube>
         <BodyTube>
             <PartType>BodyTube</PartType>
-            <Length>27.9999</Length>
+            <Length>28.9999</Length>
             <Diameter>6.2</Diameter>
             <LaunchLugDiameter>0</LaunchLugDiameter>
             <LaunchLugLength>0</LaunchLugLength>
             <RailGuideDiameter>0.621</RailGuideDiameter>
             <RailGuideHeight>0.6845</RailGuideHeight>
             <LaunchShoeArea>0</LaunchShoeArea>
-            <Location>81.7498</Location>
+            <Location>80.7498</Location>
             <Color>Blue</Color>
             <BoattailLength>0</BoattailLength>
             <BoattailRearDiameter>0</BoattailRearDiameter>
@@ -107,13 +107,13 @@
             <Overhang>0</Overhang>
             <Fin>
                 <Count>4</Count>
-                <Chord>12</Chord>
-                <Span>6.5</Span>
-                <SweepDistance>4.25</SweepDistance>
-                <TipChord>5.5</TipChord>
+                <Chord>11.5</Chord>
+                <Span>7</Span>
+                <SweepDistance>1.95</SweepDistance>
+                <TipChord>9.5</TipChord>
                 <Thickness>0.2</Thickness>
                 <LERadius>0</LERadius>
-                <Location>12</Location>
+                <Location>11.5</Location>
                 <AirfoilSection>Rounded</AirfoilSection>
                 <FX1>0</FX1>
                 <FX3>0</FX3>
@@ -163,9 +163,9 @@
     <MachAlt></MachAlt>
     <SimulationList>
         <Simulation>
-            <SustainerLaunchWt>62.3113</SustainerLaunchWt>
+            <SustainerLaunchWt>62.4936</SustainerLaunchWt>
             <SustainerNozzleDiameter>0</SustainerNozzleDiameter>
-            <SustainerCG>70.0316</SustainerCG>
+            <SustainerCG>70.672</SustainerCG>
             <SustainerIgnitionDelay>0</SustainerIgnitionDelay>
             <Booster1LaunchWt>0</Booster1LaunchWt>
             <Booster1SeparationDelay>0</Booster1SeparationDelay>

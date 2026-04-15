@@ -6,7 +6,7 @@ clear; close all;
 
 %% SETTING FLIGHT CONDITIONS, CONSTRAINTS ---------------------------------
 
-rocket_path = "C:\IREC-2026-Systems\Rocket Files\RISK.ork"; 
+rocket_path = "C:\IREC-2026-Systems\Rocket Files\RISK_weightReduced.ork"; 
 if ~isfile(rocket_path)
     error("Error: not on path", rocket_path);
 end
@@ -23,15 +23,33 @@ end
 f = @FOS_finflutter;
 
 % allowing user to pick from predetermined stock thickness
-t = user_thickness();
+%t = user_thickness();
+% sike
+t = 0.005;
 
 
 global cost_tracking
 cost_tracking = [];
+
+airDataFilePath = "C:\IREC-2026-Systems\atmosphereData\airdata.mat";
+
+% Rasaero drag curve
+dragFilePath = "C:\IREC-2026-Systems\Data\CDplot-RISK.csv";
+
+%% Get atmosphere
+airdata = importdata(airDataFilePath);
+airdata.TMP = airdata.TMP + 273.15; % conv Celcius to Kelvin
+%% Get drag curve
+rasDrag = import_rasaero_aerodata(dragFilePath);
+rasDrag = rasDrag.align("mach");
+rasDrag = table(rasDrag.mach, rasDrag.pick{"aoa", 0, "field", "CD"}, ...
+    VariableNames = ["MACH", "DRAG"]);
+rasDrag.MACH(1) = 0;
+
 %% OPTIMIZATION
 
 % calling the setup function and creating a var to pass into fminsearch
-absolute_cost = costfunc_setup(rocket, sim, fins, f, t);
+absolute_cost = costfunc_setup(rocket, sim, fins, f, t, airdata, rasDrag);
 
 % initatilzing 
 init_Ls = fins.getSweep();
@@ -63,7 +81,8 @@ fins.setRootChord(opt_params(3));
 fins.setHeight(opt_params(4));
 
 sim.getOptions().setWindTurbulenceIntensity(0);
-simdata = openrocket.simulate(sim, outputs = "ALL");
+simdata = openrocket.simulate(sim, outputs = "ALL", atmos = airdata(:, ["HGT", "PRES", "TMP"]),...
+    drag = rasDrag);
 
 % apogee calculation (can use either)
 final_apogee = max(simdata.Altitude);
@@ -103,27 +122,29 @@ title('Evaluating Cost Evoluntion During Optimization');
 %% OPTIMIZATION FUNCITONS
 
 % setup for optimization routine
-function func = costfunc_setup(rocket, sim, fins, f, t)
+function func = costfunc_setup(rocket, sim, fins, f, t, airdata, rasDrag)
     
     % setup
     sim.getOptions().setWindTurbulenceIntensity(0);
+    %sim.getOptions().setWindSpeed(0);
     fins = rocket.component(class = "FinSet");
     rkt = rocket.rocket();
     [D, ~] = rocket.refdims();
     L = rkt.getLength();
 
     % set targets for mission parameters
-    target_apg = 3423; 
-    target_stbL = 8.25; 
-    target_stbB = 17; 
+    target_apg = 3420; 
+    target_stbL = 7.85; 
+    target_stbB = 20; 
     target_FOS = 1.55; 
 
     % define weights for each, modifies how the function behaves and affects the weight of the cost value
     % [greater number = less lenient above target, greater numer = less lenient below target]
-    weights_apg = [0.05, 0.05];
-    weights_stbL = [1.0, 0.3];
+    % [A, N]
+    weights_apg = [0.5, 0.5];
+    weights_stbL = [0.01, 5.0];
     weights_stbB = [0.01, 0.01];
-    weights_FOS = [0.01, 0.5];
+    weights_FOS = [0.3, 10];
     
     func = @cost;
 
@@ -143,7 +164,8 @@ function func = costfunc_setup(rocket, sim, fins, f, t)
         fins.setHeight(h); 
         
         % can change so you're only pulling necessary
-        simdata = rocket.simulate(sim, outputs = "ALL");
+        simdata = rocket.simulate(sim, outputs = "ALL", atmos = airdata(:, ["HGT", "PRES", "TMP"]),...
+    drag = rasDrag);
         
         % apogee calculation
         apogee = max(simdata.Altitude); 
@@ -176,10 +198,17 @@ function func = costfunc_setup(rocket, sim, fins, f, t)
         if fins.getTipChord() < 0.0254
             penalty = penalty + 100;
         end
+        
+        if fins.getTipChord() > fins.getRootChord()
+            penalty = penalty + 100;
+        end
 
-        % if fins.getSweep() < 0.12
-        %     penalty = penalty + 1000;
-        % end
+        if fins.getTipChord() + fins.getSweep() > 280
+            penalty = penalty + 100;
+        end
+
+        penalty = penalty + 10*abs(fins.getRootChord() - 292);
+
 
         % function penalizes heavily if negative and less harshly if positive.
         apg_err = abs(-weights_apg(1) * (delta_apg - 100)^2 * (exp (-weights_apg(2) * (delta_apg - 100)) - 1)); 

@@ -4,10 +4,10 @@
 % profile, drag curve, and with extra outputs
 clear; close all; clc;
 %% Inputs
-targetMass = 28.89; 
+targetMass = 27.724; 
 % DO NOT LEAVE OVERRIDES ACTIVE
-overrideAbMass = [0 0]; % [logical, value(kg)]
-overrideAviMass = [0 3.005-0.33];
+overrideAbMass = [0 0.504]; % [logical, value(kg)]
+overrideAviMass = [0 1.85];
 overridePayloadMass = [0 0];
 
 %% Auto inputs
@@ -18,7 +18,7 @@ alt_var = 0.5*reportData1.control-reportData1.uncertainty;
 alt_target = 3048 + reportData1.ind_error + 0.5*reportData1.control;
 %% Setup
 % Retrieve openrocket
-filepath = "C:\IREC-2026-Systems\Rocket Files\RISK.ork";
+filepath = "C:\IREC-2026-Systems\Rocket Files\RISK_weightReduced.ork";
 risk = openrocket(filepath);
 rocket = risk.rocket();
 % Reference simulation
@@ -34,7 +34,7 @@ site = launchsites("spaceport-midland");
 % Launch time
 lTime.date = [2025, 06, 21]; % [year, month, day]
 lTime.time = [10, 21, 00]; % [hour, minute, second]
-airDataFilePath = "C:\IREC-2026-Systems\atmosphereData\postFlightAtmos.mat";
+airDataFilePath = "C:\IREC-2026-Systems\atmosphereData\airdata.mat";
 
 % Rasaero drag curve
 dragFilePath = "C:\IREC-2026-Systems\Data\CDplot-RISK.csv";
@@ -84,6 +84,8 @@ mAlt = max(simData.Altitude);
 mAltInd = max(simData.("Indicated altitude"));
 errAlt = mAlt - mAltInd;
 targetErr = mAlt - alt_target;
+lowErr = mAlt - (alt_target - alt_var);
+highErr = mAlt - (alt_target + alt_var);
 if abs(targetErr) <= alt_var
     strTarget = "ON TARGET";
 else
@@ -120,14 +122,14 @@ maxG = maxAccel/9.81;
 
 
 %% Plot outputs :) :)
-plotRange = timerange(eventfilter("LAUNCH"), eventfilter("DROGUE"));
-plot_openrocket(simData(plotRange, :), "Altitude", "Total velocity", end_ev = "DROGUE", labels = ["LAUNCHROD", "BURNOUT", "APOGEE"]);
+% plotRange = timerange(eventfilter("LAUNCH"), eventfilter("DROGUE"));
+% plot_openrocket(simData(plotRange, :), "Altitude", "Total velocity", end_ev = "DROGUE", labels = ["LAUNCHROD", "BURNOUT", "APOGEE"]);
 % plotAltitudeError(simData)
 % plotErrorVAltitude(simData)
-plotStabPercent(simData)
-%plotStabCombined(simData)
+% plotStabPercent(simData)
+% plotStabCombined(simData)
 % plotCPlocation(simData)
-plotAltVelAccel(simData)
+% plotAltVelAccel(simData)
 
 %% Update Report
 reportData1.status = strTarget;
@@ -196,7 +198,7 @@ updateReport;
 %% Text output
 fprintf("%s\n", strTarget);
 fprintf("\nGeometric Apogee: %4.0f m\nIndicated Apogee: %4.0f m\nMeasurement Error: %3.0f m\n"...
-    + "Apogee Error: %2.1f m\n", mAlt, mAltInd, errAlt, targetErr);
+    + "Apogee Error: %2.1f m\nLower bound delta: %2.1f m\nUpper bound delta: %2.1f m\n", mAlt, mAltInd, errAlt, targetErr, lowErr, highErr);
 fprintf("\nMaximum velocity: %4.0f m/s\nMaximum acceleration: %3.0f m/s^2 (%2.1f g)\n" + ...
     "Maximum mach number: %1.2f\n", maxVel, maxAccel, maxG, maxMach);
 fprintf("\nLaunch stability: %2.2f percent (%.2f cal)\nMaximum stability: %2.2f percent (%.2f cal)\n",...
