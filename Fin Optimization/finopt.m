@@ -6,7 +6,7 @@ clear; close all;
 
 %% SETTING FLIGHT CONDITIONS, CONSTRAINTS ---------------------------------
 
-rocket_path = "C:\IREC-2026-Systems\Rocket Files\RISK_weightReduced.ork"; 
+rocket_path = "C:\IREC-2026-Systems\Rocket Files\GODHELPME.ork"; 
 if ~isfile(rocket_path)
     error("Error: not on path", rocket_path);
 end
@@ -134,16 +134,16 @@ function func = costfunc_setup(rocket, sim, fins, f, t, airdata, rasDrag)
 
     % set targets for mission parameters
     target_apg = 3420; 
-    target_stbL = 7.85; 
+    target_stbL = 7.55; 
     target_stbB = 20; 
-    target_FOS = 1.55; 
+    target_FOS = 1.52; 
 
     % define weights for each, modifies how the function behaves and affects the weight of the cost value
     % [greater number = less lenient above target, greater numer = less lenient below target]
     % [A, N]
-    weights_apg = [0.5, 0.5];
+    weights_apg = [0.5, 2];
     weights_stbL = [0.01, 5.0];
-    weights_stbB = [0.01, 0.01];
+    weights_stbB = [0.001, 0.001];
     weights_FOS = [0.3, 10];
     
     func = @cost;
@@ -199,15 +199,21 @@ function func = costfunc_setup(rocket, sim, fins, f, t, airdata, rasDrag)
             penalty = penalty + 100;
         end
         
-        if fins.getTipChord() > fins.getRootChord()
+        if fins.getTipChord() > 0.8*fins.getRootChord()
             penalty = penalty + 100;
         end
 
-        if fins.getTipChord() + fins.getSweep() > 280
+        if fins.getTipChord() + fins.getSweep() > 0.280
             penalty = penalty + 100;
         end
 
-        penalty = penalty + 10*abs(fins.getRootChord() - 292);
+        if fins.getRootChord() > 0.300
+            penalty = penalty + 100;
+        end
+
+        penalty = penalty + 500*exp(-30*fins.getSweep());
+
+        penalty = penalty + 10*abs(fins.getRootChord() - 0.292);
 
 
         % function penalizes heavily if negative and less harshly if positive.

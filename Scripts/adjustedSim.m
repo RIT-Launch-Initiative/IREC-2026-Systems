@@ -6,8 +6,8 @@ clear; close all; clc;
 %% Inputs
 targetMass = 27.724; 
 % DO NOT LEAVE OVERRIDES ACTIVE
-overrideAbMass = [0 0.504]; % [logical, value(kg)]
-overrideAviMass = [0 1.85];
+overrideAbMass = [0 0.26]; % [logical, value(kg)]
+overrideAviMass = [0 1.66];
 overridePayloadMass = [0 0];
 
 %% Auto inputs
@@ -18,7 +18,7 @@ alt_var = 0.5*reportData1.control-reportData1.uncertainty;
 alt_target = 3048 + reportData1.ind_error + 0.5*reportData1.control;
 %% Setup
 % Retrieve openrocket
-filepath = "C:\IREC-2026-Systems\Rocket Files\RISK_weightReduced.ork";
+filepath = "C:\IREC-2026-Systems\Rocket Files\RISK.ork";
 risk = openrocket(filepath);
 rocket = risk.rocket();
 % Reference simulation

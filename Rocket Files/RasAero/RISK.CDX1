@@ -107,13 +107,13 @@
             <Overhang>0</Overhang>
             <Fin>
                 <Count>4</Count>
-                <Chord>11.5</Chord>
-                <Span>7</Span>
-                <SweepDistance>1.95</SweepDistance>
-                <TipChord>9.5</TipChord>
+                <Chord>8.213</Chord>
+                <Span>6.45</Span>
+                <SweepDistance>2.795</SweepDistance>
+                <TipChord>8.1</TipChord>
                 <Thickness>0.2</Thickness>
                 <LERadius>0</LERadius>
-                <Location>11.5</Location>
+                <Location>8.213</Location>
                 <AirfoilSection>Rounded</AirfoilSection>
                 <FX1>0</FX1>
                 <FX3>0</FX3>
@@ -154,18 +154,18 @@
         <Event1>True</Event1>
         <Event2>True</Event2>
         <Size1>95.9998</Size1>
-        <Size2>26.7399</Size2>
+        <Size2>35.9999</Size2>
         <EventType1>Altitude</EventType1>
         <EventType2>Apogee</EventType2>
-        <CD1>2.22</CD1>
+        <CD1>1.35</CD1>
         <CD2>0</CD2>
     </Recovery>
     <MachAlt></MachAlt>
     <SimulationList>
         <Simulation>
-            <SustainerLaunchWt>62.4936</SustainerLaunchWt>
+            <SustainerLaunchWt>59.484</SustainerLaunchWt>
             <SustainerNozzleDiameter>0</SustainerNozzleDiameter>
-            <SustainerCG>70.672</SustainerCG>
+            <SustainerCG>69.3726</SustainerCG>
             <SustainerIgnitionDelay>0</SustainerIgnitionDelay>
             <Booster1LaunchWt>0</Booster1LaunchWt>
             <Booster1SeparationDelay>0</Booster1SeparationDelay>
