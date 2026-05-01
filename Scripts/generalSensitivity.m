@@ -25,7 +25,7 @@ L = risk.getLength();
 [D, ~] = rocket.refdims();
 %% Get air data and drag curve
 % Use air data
-airDataFilePath = "C:\IREC-2026-Systems\atmosphereData\postFlightAtmos.mat";
+airDataFilePath = "C:\IREC-2026-Systems\atmosphereData\airdata.mat";
 airdata = importdata(airDataFilePath);
 airdata.TMP = airdata.TMP + 273.15; % conv Celcius to Kelvin
 offsetAirData = airdata;
@@ -61,7 +61,7 @@ for i = 1:N
     varyBody(rocket, bodyVars);
 
     % Vary drag
-    rasDrag.DRAG = rasDragOrg.DRAG*(1+(rand()-0.5)*dragVar*2);
+    rasDrag.DRAG = rasDragOrg.DRAG*(1+(rand()-0.5)*dragVar);
 
     opts.setWindSpeedAverage(wind);
     rocket.simulate(sim, atmos = offsetAirData(:, ["HGT", "PRES", "TMP"]), drag = rasDrag);
@@ -120,9 +120,9 @@ function out = subsysRange(rocket)
     out.abMass = rocket.component(name="Airbrake").getMass;
     out.aviMass = rocket.component(name="Avionics").getMass;
     out.payloadMass = rocket.component(name="Payload").getMass;
-    out.abVar = 0.04659;
-    out.aviVar = 0.1766;
-    out.payloadVar = 0.458;
+    out.abVar = 0.022;
+    out.aviVar = 0.186;
+    out.payloadVar = 0.278;
 end
 
 function out = compRange(rocket)

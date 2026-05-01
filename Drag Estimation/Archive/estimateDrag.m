@@ -8,15 +8,15 @@ dt=1/samplerate;
 timeInterval = 30; % [s] Length of time to use
 rrc3FilePath = pfullfile("Drag Estimation\Flight Data\OTIS","OTIS Primary RRC3.xlsx");
 featherweightFilePath = pfullfile("Drag Estimation\Flight Data\OTIS","featherweight_downloaded.csv");
-ORFilePath = pfullfile("Rocket Files\Older Rockets","IREC_2025_M6000ST-0.ork");
-airDataFilePath = "atmosphereData\postFlightAtmos.mat";
-ORSimName = "15MPH-TEXAS-36C-(TYP)";
+ORFilePath = pfullfile("Rocket Files\Other","TB-1.ork");
+airDataFilePath = "atmosphereData\airdata.mat";
+ORSimName = "15mph_URRG";
 
 %% Load and trim flight data
 % Load data
 rrc3Data = readtable(rrc3FilePath);
 featherweightData = readtable(featherweightFilePath,"Delimiter",",");
-airData = load(airDataFilePath).ans;
+airData = load(airDataFilePath);
 
 %% Get dimensions and mass trend from openrocket
 OR = openrocket(ORFilePath);
@@ -48,7 +48,7 @@ featherweightTrimmed = trimFeatherweightData(featherweightData);
 [rrc3Data, featherweightData] = alignData(rrc3DataTrimmed, featherweightTrimmed, globalTime);
 
 %% Process
-[motion.time, motion.vel, motion.vel, motion.accel] = filterData(rrc3Data, featherweightData, 0, 0, 0);
+%[motion.time, motion.vel, motion.vel, motion.accel] = filterData(rrc3Data, featherweightData, 0, 0, 0);
 
 %% Drag calculation
 
