@@ -1,23 +1,23 @@
 1---APOGEE STATS
 Apogee
      Status ------------------: ON TARGET
-     Geometric apogee [m, ft] : 3401.6, 11160
+     Geometric apogee [m, ft] : 3443.9, 11299
      Target [m, ft] 
           Center -------------: 3420.9, 11224
           Range --------------: 154.1, 506
           Lower bound --------: 3343.9, 10971
           Upper bound --------: 3498.0, 11476
-     Apogee error [m, ft, %] -: -19.3, -63, -13%
-     Indicated apogee [m, ft] : 3223.7, 10576
+     Apogee error [m, ft, %] -: 23.0, 76, 15%
+     Indicated apogee [m, ft] : 3264.7, 10711
      Uncertainty [m, ft] -----: 117.9, 387
      Control authority [m, ft]: 390.0, 1280
 
 2---PERFORMANCE
 Motion
-     Maximum speed [m/s] -----: 316.0
-     Rod exit speed [m/s] ----: 32.9
-     Max. accel. [m/s^2, g] --: 153.8, 15.7
-     Flight time [s] ---------: 219
+     Maximum speed [m/s] -----: 321.1
+     Rod exit speed [m/s] ----: 32.4
+     Max. accel. [m/s^2, g] --: 156.5, 16.0
+     Flight time [s] ---------: 222
 Recovery
      Drogue descent rate [m/s]: 23.12
      Drogue time [s] ---------: 124
@@ -26,15 +26,15 @@ Recovery
      Ground hit speed [m/s] --: 6.13
      Max. snatch force [N] ---: 2980
 Stability
-     Rod exit [%, cal] -------: 8.83%, 1.68
-     Burnout [%, cal] --------: 21.80%, 4.15
+     Rod exit [%, cal] -------: 8.57%, 1.63
+     Burnout [%, cal] --------: 21.73%, 4.13
 Flutter
-     Flutter speed [m/s] -----: 493.1
-     Flutter margin ----------: 1.56
+     Flutter speed [m/s] -----: 493.2
+     Flutter margin ----------: 1.54
 Other
-     Max q [kPa] -------------: 51.53
-     Speed at max q [m/s] ----: 168.8
-     time at max q [s] -------: 1.24
+     Max q [kPa] -------------: 53.19
+     Speed at max q [m/s] ----: 175.2
+     time at max q [s] -------: 1.26
 
 3---DESIGN
 Dimensions
@@ -42,15 +42,15 @@ Dimensions
      Diameter [in] -----------: 6.20
      Reference area [m^2] ----: 0.0195
 Rocket Mass [kg]
-     Fully loaded ------------: 28.21
-     No motor ----------------: 20.62
-     Burnout -----------------: 23.75
-     Empty -------------------: 13.77
+     Fully loaded ------------: 27.76
+     No motor ----------------: 20.16
+     Burnout -----------------: 23.30
+     Empty -------------------: 13.58
      Target ------------------: 27.72
-     Error -------------------: 0.49
+     Error -------------------: 0.03
 System Masses [kg]
      Airbrakes ---------------: 1.237
-     Avionics ----------------: 2.679
+     Avionics ----------------: 2.421
      Payload -----------------: 2.928
 Recovery
      Main

@@ -101,19 +101,25 @@ pad = 0.2;
 [xLimits, yLimits] = makeBounds(outVec, pad);
 
 % Plot Monte Points
+f = figure(name = "Recovery point spread");
 scatter(outVec(:,1), outVec(:,2), 6, "filled")
 hold on;
 % Average landing spot
 scatter(aveLandingSpot(1), aveLandingSpot(2), 36, "filled", "red")
 plotCircle(aveLandingSpot, 2*stdDistance, [1, 0.1, 0.1, 0.1]);
 hold off;
-xlabel("Position East of Launch [m]")
-ylabel("Position North of Launch [m]")
+xlabel("Position East of Launch [m]", "FontName", "Times New Roman")
+ylabel("Position North of Launch [m]", "FontName", "Times New Roman")
 xlim([-200 1000])
 ylim([-600 600])
 %xlim(xLimits)
 %ylim(yLimits)
 axis equal
+grid on;
+
+path = "C:\IREC-2026-Systems\Drag Estimation\Figures\landing-point.pdf";
+sz = [900, 300];
+print2size(f, path, sz)
 
 %close("Landing Points")
 
@@ -169,4 +175,23 @@ function plotCircle(c, r, color)
     x = c(1) + r*sin(t);
     y = c(2) + r*cos(t);
     fill(x,y,color(1:3),"FaceAlpha", color(4), "LineStyle", "none")
+end
+
+function print2size(fig, path, sz)
+    arguments
+        fig;
+        path (1,1) string;
+        sz (1,2) double;
+    end
+
+    drawnow;
+
+    fig.Units = "pixels";
+    fig.Position = [1 1 sz];
+    waitfor(fig, Position = [1 1 sz]);
+
+    exportgraphics(fig, path, ContentType = "vector");
+
+    % fig.WindowStyle = old_window;
+    % waitfor(fig, WindowStyle = old_window);
 end

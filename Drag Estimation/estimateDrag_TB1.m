@@ -102,8 +102,10 @@ fprintf("The drag coefficent of the airbrakes is %.3f\n(Fully extended, 0.25 < M
 % plotCD(motion, out.C, machCurve, "Complete Drag Curve")
 % plotCD(motion, C_retracted, machCurve, "Airbrakes Retracted Drag")
 % plotCD(motion, C_extended, machCurve, "Airbrakes Extended Drag")
-motionSummary(globalTime, dataTrimmed, motion)
-dragSummary(motion, out.C, machCurve)
+% motionSummary(globalTime, dataTrimmed, motion)
+% % dragSummary(motion, out.C, machCurve)
+% accelSummary(globalTime, dataTrimmed, motion)
+plotAdjData(dataTrimmed)
 
 function out = fit_C(in)
     temp = [];
@@ -214,10 +216,10 @@ function motionSummary(globalTime, dataTrimmed, motion)
     plot(globalTime, dataTrimmed(3,:)*C);
     plot(motion(1,:), motion(3,:)*C);
     hold off;
-    ylabel("Velocity [m/s]", "FontName", "Times New Roman")
-    xlabel("Flight Time [s]", "FontName", "Times New Roman")
+    ylabel("Velocity [m/s]")
+    xlabel("Flight Time [s]")
     xlim([3,10])
-    legend("Measured Data", "Filtered Data", "Location","northeast", "FontName", "Times New Roman")
+    legend("Measured Data", "Filtered Data", "Location","northeast")
 
     % Acceleration plot
     subplot(1, 2, 2)
@@ -225,15 +227,34 @@ function motionSummary(globalTime, dataTrimmed, motion)
     plot(globalTime, dataTrimmed(4,:)*C);
     plot(motion(1,:), motion(4,:)*C);
     hold off;
-    ylabel("Acceleration [m/s^2]", "FontName", "Times New Roman")
-    xlabel("Flight Time [s]", "FontName", "Times New Roman")
+    ylabel("Acceleration [m/s^2]")
+    xlabel("Flight Time [s]")
     xlim([3,10])
-    legend("Measured Data", "Filtered Data", "Location","southeast", "FontName", "Times New Roman")
+    legend("Measured Data", "Filtered Data", "Location","southeast")
 
     % print to pdf
-    path = "C:\IREC-2026-Systems\Drag Estimation\Figures\filter-comparison.pdf";
-    sz = [900, 300];
-    print2size(f, path, sz)
+    reportSz = [900, 300];
+    slidesSz = [1000, 400];
+    path = "C:\IREC-2026-Systems\Drag Estimation\Figures\filter-comparison.png";
+    print2size(f, path, slidesSz)
+end
+
+function accelSummary(globalTime, dataTrimmed, motion)
+    f = figure(name = "Accel Comparison");
+    hold on;
+    plot(globalTime, dataTrimmed(4,:));
+    plot(motion(1,:), motion(4,:));
+    hold off;
+    ylabel("Acceleration [m/s^2]")
+    xlabel("Flight Time [s]")
+    xlim([3,10])
+    legend("Measured Data", "Filtered Data", "Location","southeast")
+
+    % print to pdf
+    reportSz = [900, 300];
+    slidesSz = [400, 400];
+    path = "C:\IREC-2026-Systems\Drag Estimation\Figures\accel-comparison.png";
+    print2size(f, path, slidesSz)
 end
 
 function dragSummary(motion, C, machCurve)
@@ -254,7 +275,30 @@ function dragSummary(motion, C, machCurve)
     xlim([0.28 0.41])
     grid on;
     % print to pdf
-    path = "C:\IREC-2026-Systems\Drag Estimation\Figures\drag-curve.pdf";
-    sz = [900, 400];
-    print2size(f, path, sz)
+    path = "C:\IREC-2026-Systems\Drag Estimation\Figures\drag-curve.png";
+    reportSz = [900, 400];
+    slidesSz = [400, 400];
+    print2size(f, path, slidesSz)
+end
+
+function plotAdjData(dataTrimmed)
+    f = figure(name = "Adjusted Data");
+    hold on;
+    yyaxis left
+    plot(dataTrimmed(1,:), dataTrimmed(2,:));
+    ylabel("Altitude [m]")
+
+    yyaxis right
+    plot(dataTrimmed(1,:), dataTrimmed(4,:));
+    ylabel("Acceleration [m/s^2]")
+
+    hold off;
+    
+    xlabel("Flight Time [s]")
+    legend("Measured Altitude", "Measured Acceleration", "Location", "southeast")
+
+    % print to pdf
+    slidesSz = [600, 400];
+    path = "C:\IREC-2026-Systems\Drag Estimation\Figures\corrected-data.png";
+    print2size(f, path, slidesSz)
 end

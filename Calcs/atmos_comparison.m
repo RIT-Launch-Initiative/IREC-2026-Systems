@@ -18,7 +18,6 @@ ISAPRES = interp1(isa_hgt, isa_pres, altVec, "linear", "extrap");
 ISATMP = interp1(isa_hgt, isa_tmp, altVec, "linear", "extrap");
 
 f = figure(name = "atmosphere comparison");
-subplot(1, 2, 1)
 hold on;
 plot(ISAPRES, altVec)
 plot(customPRES, altVec)
@@ -27,16 +26,6 @@ legend("ISA", "Forecast", "FontName", "Times New Roman")
 xlabel("Pressure [mBar]", "FontName", "Times New Roman")
 ylabel("Altitude [m]", "FontName", "Times New Roman")
 xlim([500 1050])
-grid on;
-
-subplot(1, 2, 2)
-hold on;
-plot(ISATMP, altVec)
-plot(customTMP, altVec)
-hold off;
-legend("ISA", "Forecast", "FontName", "Times New Roman")
-xlabel("Temperature [" + char(176) + "C]", "FontName", "Times New Roman")
-xlim([-40 60])
 grid on;
 
 % print to pdf
