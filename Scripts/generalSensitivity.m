@@ -42,10 +42,10 @@ windRange = windBounds(2)-windBounds(1);
 subsysVars = subsysRange(rocket);
 compVars = compRange(rocket);
 bodyVars = bodyRange(rocket);
-dragVar = 0.05;
+dragVar = 0.1;
 
 %% Monte Carlo Loop
-N = 50; % Number of samples
+N = 200; % Number of samples
 apogeeList = zeros([N,1]);
 rodStabList = zeros([N,1]);
 pressAppList = zeros([N,1]);
@@ -53,8 +53,8 @@ elapsed = tic;
 for i = 1:N
     disp("Running simulation " + i + " of " + N)
     wind = windBounds(1) + rand()*windRange;
-    offsetAirData.TMP = airdata.TMP + (rand()-0.5)*tempSpread;
-    offsetAirData.PRES = airdata.PRES + (rand()-0.5)*pressSpread;
+    offsetAirData.TMP = airdata.TMP + 2*(rand()-0.5)*tempSpread;
+    offsetAirData.PRES = airdata.PRES + 2*(rand()-0.5)*pressSpread;
     
     varySubsys(rocket, subsysVars);
     varyComp(rocket, compVars);

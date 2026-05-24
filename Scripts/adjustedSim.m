@@ -37,7 +37,7 @@ lTime.time = [10, 21, 00]; % [hour, minute, second]
 airDataFilePath = "C:\IREC-2026-Systems\atmosphereData\airdata.mat";
 
 % Rasaero drag curve
-dragFilePath = "C:\IREC-2026-Systems\Data\CDplot-RISK.csv";
+dragFilePath = "C:\IREC-2026-Systems\Data\CDplot-RISK-allTurbulent.csv";
 
 %% Get atmosphere
 airdata = importdata(airDataFilePath);

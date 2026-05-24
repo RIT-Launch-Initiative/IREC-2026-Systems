@@ -1,23 +1,23 @@
 1---APOGEE STATS
 Apogee
      Status ------------------: ON TARGET
-     Geometric apogee [m, ft] : 3443.9, 11299
+     Geometric apogee [m, ft] : 3399.1, 11152
      Target [m, ft] 
-          Center -------------: 3420.9, 11224
-          Range --------------: 154.1, 506
-          Lower bound --------: 3343.9, 10971
-          Upper bound --------: 3498.0, 11476
-     Apogee error [m, ft, %] -: 23.0, 76, 15%
-     Indicated apogee [m, ft] : 3264.7, 10711
-     Uncertainty [m, ft] -----: 117.9, 387
+          Center -------------: 3422.3, 11228
+          Range --------------: 83.0, 272
+          Lower bound --------: 3380.8, 11092
+          Upper bound --------: 3463.8, 11364
+     Apogee error [m, ft, %] -: -23.2, -76, -28%
+     Indicated apogee [m, ft] : 3221.3, 10568
+     Uncertainty [m, ft] -----: 153.5, 504
      Control authority [m, ft]: 390.0, 1280
 
 2---PERFORMANCE
 Motion
-     Maximum speed [m/s] -----: 321.1
+     Maximum speed [m/s] -----: 320.6
      Rod exit speed [m/s] ----: 32.4
-     Max. accel. [m/s^2, g] --: 156.5, 16.0
-     Flight time [s] ---------: 222
+     Max. accel. [m/s^2, g] --: 156.2, 15.9
+     Flight time [s] ---------: 220
 Recovery
      Drogue descent rate [m/s]: 23.12
      Drogue time [s] ---------: 124
@@ -27,14 +27,14 @@ Recovery
      Max. snatch force [N] ---: 2980
 Stability
      Rod exit [%, cal] -------: 8.57%, 1.63
-     Burnout [%, cal] --------: 21.73%, 4.13
+     Burnout [%, cal] --------: 21.72%, 4.13
 Flutter
-     Flutter speed [m/s] -----: 493.2
+     Flutter speed [m/s] -----: 493.1
      Flutter margin ----------: 1.54
 Other
-     Max q [kPa] -------------: 53.19
-     Speed at max q [m/s] ----: 175.2
-     time at max q [s] -------: 1.26
+     Max q [kPa] -------------: 53.03
+     Speed at max q [m/s] ----: 173.4
+     time at max q [s] -------: 1.25
 
 3---DESIGN
 Dimensions
