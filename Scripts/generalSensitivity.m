@@ -5,8 +5,8 @@ clear; close all; clc;
 %% Inputs
 controlAuthority = 390;
 windBounds = [1.5 9.0]; % [min max] [m/s]
-tempSpread = 10; % [K]
-pressSpread = 2*10^3; % [Pa]
+tempSpread = 7.4; % [K]
+pressSpread = 963; % [Pa]
 %% Auto inputs
 load("C://IREC-2026-Systems/Design Reporting/reportData1.mat");
 %% Setup OpenRocket
@@ -120,20 +120,20 @@ function out = subsysRange(rocket)
     out.abMass = rocket.component(name="Airbrake").getMass;
     out.aviMass = rocket.component(name="Avionics").getMass;
     out.payloadMass = rocket.component(name="Payload").getMass;
-    out.abVar = 0.022;
-    out.aviVar = 0.186;
-    out.payloadVar = 0.278;
+    out.abVar = 0.001;
+    out.aviVar = 0.010;
+    out.payloadVar = 0.075;
 end
 
 function out = compRange(rocket)
     out.ncMass = rocket.component(name="Nose Cone").getOverrideMass;
-    out.ncVar = 0.1;
+    out.ncVar = 0.0;
     out.fssMass = rocket.component(name="Fin Support Structure").getOverrideMass;
-    out.fssVar = 0.1;
+    out.fssVar = 0.0;
     out.boattailMass = rocket.component(name="Boattail").getOverrideMass;
     out.boattailVar = 0.05;
     out.finsMass = rocket.component(class="FinSet").getOverrideMass;
-    out.finsVar = 0.15;
+    out.finsVar = 0.0;
 end
 
 function out = bodyRange(rocket)
@@ -164,11 +164,11 @@ function out = bodyRange(rocket)
     % tube length variation
     out.lenVar = 0.125/c1;
 
-    out.bt1Var = 0.24702;
-    out.bt2Var = 0.02746;
-    out.bt3Var = 0.10761;
-    out.bt4Var = 0.12751;
-    out.bt5Var = 0.24157;
+    out.bt1Var = 0.001;
+    out.bt2Var = 0.001;
+    out.bt3Var = 0.001;
+    out.bt4Var = 0.001;
+    out.bt5Var = 0.001;
 end
 
 function varySubsys(rocket, vars)

@@ -96,10 +96,10 @@ Cd_airbrake = CdA_airbrake/A_airbrake;
 fprintf("The drag coefficent of the airbrakes is %.3f\n(Fully extended, 0.25 < M < 0.4)\n", Cd_airbrake)
 
 %plotAlt(globalTime, dataTrimmed, motion)
-%plotVel(globalTime, dataTrimmed, motion)
-%plotAccel(globalTime, dataTrimmed, motion)
+% plotVel(globalTime, dataTrimmed, motion)
+% plotAccel(globalTime, dataTrimmed, motion)
 %plotInnovation(motion, innovation)
-% plotCD(motion, out.C, machCurve, "Complete Drag Curve")
+plotCD(motion, out.C, machCurve, "Complete Drag Curve")
 % plotCD(motion, C_retracted, machCurve, "Airbrakes Retracted Drag")
 % plotCD(motion, C_extended, machCurve, "Airbrakes Extended Drag")
 % motionSummary(globalTime, dataTrimmed, motion)
@@ -143,11 +143,11 @@ end
 
 function plotAccel(globalTime, dataTrimmed, motion)
     figure(name = "Acceleration");
-    plot(motion(1,:), motion(4,:));
-    hold on;
     plot(globalTime, dataTrimmed(4,:));
+    hold on;
+    plot(motion(1,:), motion(4,:),'LineWidth', 2);
     hold off;
-    legend("Filtered", "Raw")
+    legend("Raw", "Filtered")
     xlabel("Time [s]")
     ylabel("Acceleration [m/s^2]")
     title("Filtered Acceleration")
